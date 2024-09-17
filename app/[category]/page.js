@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import CategoryProjectList from "@/components/CategoryProjectList";
 import config from "@/config";
@@ -52,50 +52,58 @@ const ProjectDetails = ({ project }) => {
 export default function CategoryPage({ params }) {
   const { category } = params;
   const [selectedProject, setSelectedProject] = useState(null);
-  let projects = [];
-  let title = "";
 
-  switch (category) {
-    case "screen-time":
-      projects = config.screenTimeProjects;
-      title = "Screen Time";
-      break;
-    case "replacements":
-      projects = config.replacementProjects;
-      title = "Alternatives";
-      break;
-    case "productivity":
-      projects = config.productivityProjects;
-      title = "Productivity";
-      break;
-    case "web":
-      projects = config.screenTimeProjects
-        .concat(config.replacementProjects, config.productivityProjects)
-        .filter((project) => project.types.includes("Web"));
-      title = "Web";
-      break;
-    case "mobile":
-      projects = config.screenTimeProjects
-        .concat(config.replacementProjects, config.productivityProjects)
-        .filter((project) => project.types.includes("Mobile"));
-      title = "Mobile";
-      break;
-    case "extensions":
-      projects = config.screenTimeProjects
-        .concat(config.replacementProjects, config.productivityProjects)
-        .filter((project) => project.types.includes("Extension"));
-      title = "Extensions";
-      break;
-    default:
-      // Handle invalid category
-      return <div>Invalid category</div>;
-  }
+  const { projects, title } = useMemo(() => {
+    let projects = [];
+    let title = "";
+
+    switch (category) {
+      case "screen-time":
+        projects = config.screenTimeProjects;
+        title = "Screen Time";
+        break;
+      case "replacements":
+        projects = config.replacementProjects;
+        title = "Alternatives";
+        break;
+      case "productivity":
+        projects = config.productivityProjects;
+        title = "Productivity";
+        break;
+      case "web":
+        projects = config.screenTimeProjects
+          .concat(config.replacementProjects, config.productivityProjects)
+          .filter((project) => project.types.includes("Web"));
+        title = "Web";
+        break;
+      case "mobile":
+        projects = config.screenTimeProjects
+          .concat(config.replacementProjects, config.productivityProjects)
+          .filter((project) => project.types.includes("Mobile"));
+        title = "Mobile";
+        break;
+      case "extensions":
+        projects = config.screenTimeProjects
+          .concat(config.replacementProjects, config.productivityProjects)
+          .filter((project) => project.types.includes("Extension"));
+        title = "Extensions";
+        break;
+      default:
+        title = "Invalid category";
+    }
+
+    return { projects, title };
+  }, [category]);
 
   useEffect(() => {
     if (projects.length > 0 && !selectedProject) {
       setSelectedProject(projects[0]);
     }
   }, [projects, selectedProject]);
+
+  if (title === "Invalid category") {
+    return <div>Invalid category</div>;
+  }
 
   return (
     <>
