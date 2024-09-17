@@ -28,7 +28,7 @@ const ProjectDetails = ({ project }) => {
           className="rounded-lg object-cover"
         />
         <div>
-          <h2 className="text-2xl font-bold">{project.name}</h2>
+          <h2 className="text-2xl font-semibold">{project.name}</h2>
           <p className="text-gray-600">{project.tagline}</p>
           <div className="mt-2 flex gap-2">
             {project.types.map((type, index) => (
@@ -108,19 +108,17 @@ export default function CategoryPage({ params }) {
   return (
     <>
       <Header />
-      <div className="container mx-auto px-4 py-8 min-h-screen">
-        <div className="flex flex-col md:flex-row gap-8">
-          <div className="w-full md:w-1/3">
-            <CategoryProjectList
-              title={title}
-              projects={projects}
-              onProjectClick={setSelectedProject}
-              selectedProject={selectedProject}
-            />
-          </div>
-          <div className="w-full md:w-2/3 bg-white rounded-lg shadow">
-            <ProjectDetails project={selectedProject} />
-          </div>
+      <div className="container mx-auto p-0 flex flex-col md:flex-row gap-0 h-[calc(100vh-64px)]">
+        <div className="w-full md:w-1/3 overflow-y-auto">
+          <CategoryProjectList
+            title={title}
+            projects={projects}
+            onProjectClick={setSelectedProject}
+            selectedProject={selectedProject}
+          />
+        </div>
+        <div className="w-full md:w-2/3 bg-white overflow-y-auto">
+          <ProjectDetails project={selectedProject} />
         </div>
       </div>
     </>

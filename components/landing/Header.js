@@ -15,19 +15,27 @@ import {
 import { cn } from "@/lib/utils";
 import logo from "@/app/icon.png";
 import config from "@/config";
+import {
+  Clock,
+  Smartphone,
+  Globe,
+  PenTool,
+  Layers,
+  Chrome,
+} from "lucide-react";
 
 const categories = [
-  { href: "/screen-time", label: "Screen Time" },
-  { href: "/replacements", label: "Alternatives" },
-  { href: "/productivity", label: "Productivity" },
-  { href: "/web", label: "Web" },
-  { href: "/mobile", label: "Mobile" },
-  { href: "/extensions", label: "Extensions" },
+  { href: "/screen-time", label: "Screen Time", icon: Clock },
+  { href: "/replacements", label: "Alternatives", icon: Layers },
+  { href: "/productivity", label: "Productivity", icon: PenTool },
+  { href: "/web", label: "Web", icon: Globe },
+  { href: "/mobile", label: "Mobile", icon: Smartphone },
+  { href: "/extensions", label: "Extensions", icon: Chrome },
 ];
 
 const Header = () => {
   return (
-    <header className="bg-white border-b">
+    <header className="bg-white border-b border-neutral-200">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <Image
@@ -46,13 +54,14 @@ const Header = () => {
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuTrigger>Apps</NavigationMenuTrigger>
-              <NavigationMenuContent className="w-[400px]">
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[400px]">
+              <NavigationMenuContent>
+                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                   {categories.map((category) => (
                     <ListItem
                       key={category.href}
                       title={category.label}
                       href={category.href}
+                      icon={category.icon}
                     />
                   ))}
                 </ul>
@@ -73,7 +82,7 @@ const Header = () => {
 };
 
 const ListItem = React.forwardRef(
-  ({ className, title, children, ...props }, ref) => {
+  ({ className, title, children, icon: Icon, ...props }, ref) => {
     return (
       <li>
         <NavigationMenuLink asChild>
@@ -85,7 +94,10 @@ const ListItem = React.forwardRef(
             )}
             {...props}
           >
-            <div className="text-sm font-medium leading-none">{title}</div>
+            <div className="flex items-center gap-2">
+              {Icon && <Icon className="h-4 w-4" />}
+              <div className="text-sm font-medium leading-none">{title}</div>
+            </div>
             <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
               {children}
             </p>
