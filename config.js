@@ -4,22 +4,18 @@ const config = {
   appName: "Minimal Market",
   appDescription:
     "A collection of digital minimalist tools to help you reduce distractions and increase productivity.",
-  domainName: "goodmornin.app",
+  domainName: "minimalmarket.app",
   mailgun: {
     subdomain: "mg",
-    fromNoReply: `GoodMornin <noreply@mg.goodmornin.app>`,
-    fromAdmin: `Matt at GoodMornin <matt@mg.goodmornin.app>`,
-    supportEmail: "matt@mg.goodmornin.app",
+    fromNoReply: `GoodMornin <noreply@mg.minimalmarket.app>`,
+    fromAdmin: `Matt at GoodMornin <matt@mg.minimalmarket.app>`,
+    supportEmail: "matt@mg.minimalmarket.app",
     forwardRepliesTo: "matthewtiti@gmail.com",
   },
   colors: {
     theme: "dark",
     main: themes["light"]["primary"],
     toast: "#eab308",
-  },
-  auth: {
-    loginUrl: "/api/auth/signin",
-    callbackUrl: "/custom",
   },
   googleAnalyticsId: "",
   screenTimeProjects: [

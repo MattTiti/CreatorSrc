@@ -26,10 +26,10 @@ import {
 
 const categories = [
   { href: "/screen-time", label: "Screen Time", icon: Clock },
-  { href: "/replacements", label: "Alternatives", icon: Layers },
+  { href: "/mobile", label: "Mobile", icon: Smartphone },
   { href: "/productivity", label: "Productivity", icon: PenTool },
   { href: "/web", label: "Web", icon: Globe },
-  { href: "/mobile", label: "Mobile", icon: Smartphone },
+  { href: "/replacements", label: "Alternatives", icon: Layers },
   { href: "/extensions", label: "Extensions", icon: Chrome },
 ];
 
@@ -55,7 +55,7 @@ const Header = () => {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Apps</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                <ul className="grid w-[400px] gap-3 p-4 md:grid-cols-2">
                   {categories.map((category) => (
                     <ListItem
                       key={category.href}
@@ -68,11 +68,18 @@ const Header = () => {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/submit" legacyBehavior passHref>
+              <a
+                onClick={() => {
+                  window.open(
+                    `mailto:${config.mailgun.supportEmail}?subject=Need help with ${config.appName}`,
+                    "_blank"
+                  );
+                }}
+              >
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   Submit
                 </NavigationMenuLink>
-              </Link>
+              </a>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
