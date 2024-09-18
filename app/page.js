@@ -41,16 +41,19 @@ export default function Home() {
               title="Screen Time"
               projects={config.screenTimeProjects}
               category="screen-time"
+              description="Apps that help you reduce your screen time and/or block distracting websites."
             />
             <ProjectColumn
               title="Alternatives"
               projects={config.replacementProjects}
               category="replacements"
+              description={`Apps that help you reclaim your attention and "slower" alternatives to popular time-wasting apps.`}
             />
             <ProjectColumn
               title="Productivity"
               projects={config.productivityProjects}
               category="productivity"
+              description="Apps that help you make the most of limited screen time."
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

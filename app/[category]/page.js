@@ -27,7 +27,7 @@ const ImageDialog = ({ isOpen, onClose, imageSrc }) => {
       <DialogHeader>
         <DialogTitle></DialogTitle>
       </DialogHeader>
-      <DialogContent className="w-[600px]">
+      <DialogContent className="w-[800px]">
         <div className="aspect-video">
           {imageSrc ? (
             <Image
@@ -118,7 +118,7 @@ const ProjectDetails = ({ project }) => {
 
       {project.images && project.images.length > 0 && (
         <div className="space-y-2">
-          <Label className="text-lg font-semibold">Image Gallery</Label>
+          <Label className="text-lg font-semibold">Images</Label>
           <ImageCarousel images={project.images} />
         </div>
       )}
@@ -139,7 +139,7 @@ const ProjectDetails = ({ project }) => {
 
 const AppFooter = ({ projects }) => {
   return (
-    <div className="w-full h-[20vh] bg-white border-t border-gray-200 flex flex-col">
+    <div className="w-full h-[20vh] bg-stone-50 border-t border-gray-200 flex flex-col">
       <div className="pt-2">
         <Label className="text-lg font-semibold mx-4">More Apps</Label>
       </div>

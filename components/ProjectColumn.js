@@ -21,8 +21,14 @@ import {
   Chrome,
   ExternalLink,
   ArrowRight,
+  Info,
 } from "lucide-react";
 import { Label } from "@/components/ui/label";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const ProjectItem = ({ project, onClick }) => (
   <div
@@ -52,10 +58,12 @@ const ProjectItem = ({ project, onClick }) => (
 
 const ProjectColumn = ({
   title,
+  description,
   projects,
   category,
   showAllLink = true,
   slice = true,
+  showDescription = true,
 }) => {
   const [selectedProject, setSelectedProject] = useState(null);
   const displayedProjects = slice ? projects.slice(0, 5) : projects;
@@ -81,19 +89,40 @@ const ProjectColumn = ({
 
   return (
     <div className="bg-white p-6">
-      <div className="flex justify-between items-center mb-4 pb-2 border-b-4 border-neutral-700">
-        <h2 className="text-2xl font-semibold flex items-center">
-          {getIcon(title)}
-          {title}
-        </h2>
-        {showAllLink && (
-          <Link href={`/${category}`}>
-            <Button variant="ghost" size="sm">
-              See All
-            </Button>
-          </Link>
-        )}
+      <div className="mb-4 pb-2 border-b-4 border-neutral-700">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <h2 className="text-2xl font-semibold flex items-center">
+              {getIcon(title)}
+              {title}
+            </h2>
+            {showDescription && (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="ml-2 p-0 hover:bg-transparent hover:text-neutral-700 text-neutral-500"
+                  >
+                    <Info className="h-4 w-4" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80">
+                  <p className="text-sm text-gray-600">{description}</p>
+                </PopoverContent>
+              </Popover>
+            )}
+          </div>
+          {showAllLink && (
+            <Link href={`/${category}`}>
+              <Button variant="ghost" size="sm">
+                See All
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
+
       {displayedProjects.length > 0 ? (
         displayedProjects.map((project) => (
           <ProjectItem

@@ -7,6 +7,7 @@ const TypeColumn = ({ title, projects }) => {
       projects={projects}
       category={title.toLowerCase()}
       showAllLink={true}
+      showDescription={false}
     />
   );
 };
