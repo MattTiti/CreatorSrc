@@ -12,6 +12,17 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import {
+  Clock,
+  Smartphone,
+  Globe,
+  PenTool,
+  Layers,
+  Chrome,
+  ExternalLink,
+  ArrowRight,
+} from "lucide-react";
+import { Label } from "@/components/ui/label";
 
 const ProjectItem = ({ project, onClick }) => (
   <div
@@ -49,10 +60,32 @@ const ProjectColumn = ({
   const [selectedProject, setSelectedProject] = useState(null);
   const displayedProjects = slice ? projects.slice(0, 5) : projects;
 
+  const getIcon = (title) => {
+    switch (title) {
+      case "Screen Time":
+        return <Clock className="w-6 h-6 mr-2" />;
+      case "Alternatives":
+        return <Layers className="w-6 h-6 mr-2" />;
+      case "Productivity":
+        return <PenTool className="w-6 h-6 mr-2" />;
+      case "Web":
+        return <Globe className="w-6 h-6 mr-2" />;
+      case "Mobile":
+        return <Smartphone className="w-6 h-6 mr-2" />;
+      case "Extensions":
+        return <Chrome className="w-6 h-6 mr-2" />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="bg-white p-6">
       <div className="flex justify-between items-center mb-4 pb-2 border-b-4 border-neutral-700">
-        <h2 className="text-2xl font-semibold">{title}</h2>
+        <h2 className="text-2xl font-semibold flex items-center">
+          {getIcon(title)}
+          {title}
+        </h2>
         {showAllLink && (
           <Link href={`/${category}`}>
             <Button variant="ghost" size="sm">
@@ -76,7 +109,7 @@ const ProjectColumn = ({
         open={!!selectedProject}
         onOpenChange={() => setSelectedProject(null)}
       >
-        <DialogContent className="sm:min-w-[625px]">
+        <DialogContent className="sm:max-w-[625px]">
           <DialogHeader className="flex flex-row items-start gap-4">
             <Image
               src={selectedProject?.picture || ""}
@@ -99,10 +132,23 @@ const ProjectColumn = ({
               <DialogDescription>{selectedProject?.tagline}</DialogDescription>
             </div>
           </DialogHeader>
-          <div className="mt-4">
-            <p className="text-gray-600">{selectedProject?.description}</p>
+
+          <div>
+            <ul className="list-disc pl-5 space-y-2">
+              {selectedProject?.description.map((point, index) => (
+                <li key={index} className="text-gray-600">
+                  {point}
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-end gap-4">
+            <Button variant="outline" size="sm" asChild>
+              <Link href={`/${category}?projectId=${selectedProject?.id}`}>
+                See More
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
+            </Button>
             <Button variant="outline" size="sm" asChild>
               <a
                 href={selectedProject?.siteUrl}
@@ -110,6 +156,7 @@ const ProjectColumn = ({
                 rel="noopener noreferrer"
               >
                 Visit Site
+                <ExternalLink className="ml-1 h-4 w-4" />
               </a>
             </Button>
           </div>

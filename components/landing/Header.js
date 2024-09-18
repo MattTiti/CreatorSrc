@@ -68,7 +68,8 @@ const Header = () => {
               </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <a
+              <NavigationMenuLink
+                className={navigationMenuTriggerStyle()}
                 onClick={() => {
                   window.open(
                     `mailto:${config.mailgun.supportEmail}?subject=Need help with ${config.appName}`,
@@ -76,10 +77,8 @@ const Header = () => {
                   );
                 }}
               >
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Submit
-                </NavigationMenuLink>
-              </a>
+                Submit
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
