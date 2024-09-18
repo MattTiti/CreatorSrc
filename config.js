@@ -7,8 +7,8 @@ const config = {
   domainName: "minimalmarket.app",
   mailgun: {
     subdomain: "mg",
-    fromNoReply: `GoodMornin <noreply@mg.minimalmarket.app>`,
-    fromAdmin: `Matt at GoodMornin <matt@mg.minimalmarket.app>`,
+    fromNoReply: `Minimal Market <noreply@mg.minimalmarket.app>`,
+    fromAdmin: `Matt at Minimal Market <matt@mg.minimalmarket.app>`,
     supportEmail: "matt@mg.minimalmarket.app",
     forwardRepliesTo: "matthewtiti@gmail.com",
   },
@@ -17,7 +17,7 @@ const config = {
     main: themes["light"]["primary"],
     toast: "#eab308",
   },
-  googleAnalyticsId: "",
+  googleAnalyticsId: "G-TQ42B8RJ2V",
   screenTimeProjects: [
     {
       id: 1,
