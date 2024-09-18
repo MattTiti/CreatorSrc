@@ -11,7 +11,7 @@ export async function POST(req) {
     const subject = formData.get("Subject");
     const html = formData.get("body-html");
 
-    console.log("Received webhook:", { sender, subject });
+    console.log("Received webhook:", { sender, subject, html });
 
     if (config.mailgun.forwardRepliesTo && html && subject && sender) {
       console.log(
