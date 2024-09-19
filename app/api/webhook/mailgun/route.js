@@ -9,11 +9,28 @@ export async function POST(req) {
     const formData = await req.formData();
     const sender = formData.get("From");
     const subject = formData.get("Subject");
-    const html = formData.get("body-html");
+    let html = formData.get("body-html");
+    const plainText = formData.get("body-plain");
 
-    console.log("Received webhook:", { sender, subject, html });
+    console.log("Received webhook data:", {
+      sender,
+      subject,
+      html: html ? "Present" : "Missing",
+      plainText: plainText ? "Present" : "Missing",
+      forwardRepliesTo: config.mailgun.forwardRepliesTo,
+    });
 
-    if (config.mailgun.forwardRepliesTo && html && subject && sender) {
+    // If HTML is null, use plain text content
+    if (!html && plainText) {
+      html = `<pre>${plainText}</pre>`;
+    }
+
+    if (
+      config.mailgun.forwardRepliesTo &&
+      (html || plainText) &&
+      subject &&
+      sender
+    ) {
       console.log(
         "Attempting to forward email to:",
         config.mailgun.forwardRepliesTo
@@ -22,13 +39,18 @@ export async function POST(req) {
         await sendEmail({
           to: config.mailgun.forwardRepliesTo,
           subject: `${config?.appName} | ${subject}`,
-          html: `<div><p><b>- Subject:</b> ${subject}</p><p><b>- From:</b> ${sender}</p><p><b>- Content:</b></p><div>${html}</div></div>`,
+          html: `<div>
+            <p><b>- Subject:</b> ${subject}</p>
+            <p><b>- From:</b> ${sender}</p>
+            <p><b>- Content:</b></p>
+            <div>${html || plainText}</div>
+          </div>`,
+          text: plainText, // Include plain text version
           replyTo: sender,
         });
         console.log("Email forwarded successfully");
       } catch (emailError) {
         console.error("Error forwarding email:", emailError);
-        // You might want to return an error status here
         return NextResponse.json(
           { error: "Failed to forward email" },
           { status: 500 }
@@ -36,6 +58,12 @@ export async function POST(req) {
       }
     } else {
       console.log("Not forwarding email due to missing information");
+      console.log("Missing fields:", {
+        forwardRepliesTo: !config.mailgun.forwardRepliesTo,
+        content: !(html || plainText),
+        subject: !subject,
+        sender: !sender,
+      });
     }
 
     return NextResponse.json({ status: "success" });
