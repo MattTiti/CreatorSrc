@@ -12,14 +12,6 @@ export async function POST(req) {
     let html = formData.get("body-html");
     const plainText = formData.get("body-plain");
 
-    console.log("Received webhook data:", {
-      sender,
-      subject,
-      html: html ? "Present" : "Missing",
-      plainText: plainText ? "Present" : "Missing",
-      forwardRepliesTo: config.mailgun.forwardRepliesTo,
-    });
-
     // If HTML is null, use plain text content
     if (!html && plainText) {
       html = `<pre>${plainText}</pre>`;
@@ -31,10 +23,6 @@ export async function POST(req) {
       subject &&
       sender
     ) {
-      console.log(
-        "Attempting to forward email to:",
-        config.mailgun.forwardRepliesTo
-      );
       try {
         await sendEmail({
           to: config.mailgun.forwardRepliesTo,
@@ -48,7 +36,6 @@ export async function POST(req) {
           text: plainText, // Include plain text version
           replyTo: sender,
         });
-        console.log("Email forwarded successfully");
       } catch (emailError) {
         console.error("Error forwarding email:", emailError);
         return NextResponse.json(
