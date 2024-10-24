@@ -55,7 +55,7 @@ const Header = () => {
             <NavigationMenuItem>
               <NavigationMenuTrigger>Apps</NavigationMenuTrigger>
               <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:grid-cols-2">
+                <ul className="grid w-[200px] sm:w-[400px] gap-3 p-4 md:grid-cols-2">
                   {categories.map((category) => (
                     <ListItem
                       key={category.href}

@@ -18,7 +18,7 @@ import {
   DialogHeader,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
-import { ExternalLink, ArrowRight } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import Link from "next/link";
 
 const ImageDialog = ({ isOpen, onClose, imageSrc }) => {
@@ -27,7 +27,7 @@ const ImageDialog = ({ isOpen, onClose, imageSrc }) => {
       <DialogHeader>
         <DialogTitle></DialogTitle>
       </DialogHeader>
-      <DialogContent className="w-[800px]">
+      <DialogContent className="w-[90vw] md:w-[800px]">
         <div className="aspect-video">
           {imageSrc ? (
             <Image
@@ -53,8 +53,8 @@ const ImageCarousel = ({ images }) => {
     <div className="w-full mx-0 mb-6 overflow-x-auto">
       <div className="w-full flex space-x-4 pb-4">
         {images.map((image, index) => (
-          <div key={index} className="flex-shrink-0">
-            <Card className="w-64">
+          <div key={index} className="flex-shrink-0 sm:w-48 w-64">
+            <Card className="w-full">
               <CardContent className="p-0">
                 <Image
                   src={image}
@@ -73,7 +73,7 @@ const ImageCarousel = ({ images }) => {
         isOpen={!!selectedImage}
         onClose={() => setSelectedImage(null)}
         imageSrc={selectedImage}
-      />{" "}
+      />
     </div>
   );
 };
@@ -87,18 +87,18 @@ const ProjectDetails = ({ project }) => {
     );
 
   return (
-    <div className="p-6 text-neutral-700">
-      <div className="flex justify-between items-start gap-4 mb-4">
-        <div className="flex items-start gap-4 mb-4">
+    <div className="p-4 md:p-6 text-neutral-700">
+      <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-4">
+        <div className="flex flex-col md:flex-row items-start gap-4 mb-4">
           <Image
             src={project.picture}
             alt={project.name}
-            width={100}
-            height={100}
+            width={80} // Adjust width for mobile
+            height={80} // Adjust height for mobile
             className="rounded-lg object-cover"
           />
           <div>
-            <h2 className="text-xl font-semibold">{project.name}</h2>
+            <h2 className="text-lg md:text-xl font-semibold">{project.name}</h2>
             <p className="text-gray-600">{project.tagline}</p>
             <div className="mt-2 flex gap-2">
               {project.types.map((type, index) => (
@@ -109,7 +109,11 @@ const ProjectDetails = ({ project }) => {
             </div>
           </div>
         </div>
-        <Button asChild variant="outline" className="w-1/4">
+        <Button
+          asChild
+          variant="outline"
+          className="w-full md:w-1/4 mt-4 md:mt-0"
+        >
           <a href={project.siteUrl} target="_blank" rel="noopener noreferrer">
             <ExternalLink className="mr-2 h-4 w-4" /> Visit Site
           </a>
@@ -139,7 +143,7 @@ const ProjectDetails = ({ project }) => {
 
 const AppFooter = ({ projects }) => {
   return (
-    <div className="w-full h-[20vh] bg-stone-50 border-t border-gray-200 flex flex-col">
+    <div className="w-full h-[20vh] bg-stone-50 border-t border-gray-200 flex flex-col hidden sm:block">
       <div className="pt-2">
         <Label className="text-lg font-semibold mx-4">More Apps</Label>
       </div>
@@ -232,7 +236,6 @@ export default function CategoryPage({ params }) {
           })),
         ].slice(0, 10);
         break;
-      // ... (other cases remain the same)
       default:
         title = "Invalid category";
     }
@@ -262,7 +265,7 @@ export default function CategoryPage({ params }) {
   return (
     <div className="flex flex-col h-screen text-neutral-700">
       <Header />
-      <div className="flex-grow h-[60vh] flex flex-col md:flex-row">
+      <div className="flex-grow h-auto sm:h-[60vh] flex flex-col-reverse sm:flex-row">
         <div className="w-full md:w-1/3 overflow-y-auto">
           <CategoryProjectList
             title={title}

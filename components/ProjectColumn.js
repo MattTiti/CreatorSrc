@@ -46,7 +46,7 @@ const ProjectItem = ({ project, onClick }) => (
       <div className="flex items-center gap-2">
         <h3 className="text-md font-semibold">{project.name}</h3>
         {project.types.map((type, index) => (
-          <Badge key={index} variant="secondary">
+          <Badge key={index} variant="secondary" className="hidden sm:block">
             {type}
           </Badge>
         ))}
@@ -138,7 +138,7 @@ const ProjectColumn = ({
         open={!!selectedProject}
         onOpenChange={() => setSelectedProject(null)}
       >
-        <DialogContent className="sm:max-w-[625px]">
+        <DialogContent className="w-[90vw] sm:max-w-[625px]">
           <DialogHeader className="flex flex-row items-start gap-4">
             <Image
               src={selectedProject?.picture || ""}
@@ -152,13 +152,19 @@ const ProjectColumn = ({
                 <div className="flex items-center gap-2">
                   <DialogTitle>{selectedProject?.name}</DialogTitle>
                   {selectedProject?.types.map((type, index) => (
-                    <Badge key={index} variant="secondary">
+                    <Badge
+                      key={index}
+                      variant="secondary"
+                      className="hidden sm:block"
+                    >
                       {type}
                     </Badge>
                   ))}
                 </div>
               </div>
-              <DialogDescription>{selectedProject?.tagline}</DialogDescription>
+              <DialogDescription className="text-start">
+                {selectedProject?.tagline}
+              </DialogDescription>
             </div>
           </DialogHeader>
 

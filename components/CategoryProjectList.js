@@ -27,7 +27,7 @@ const ProjectItem = ({ project, onClick, isSelected }) => (
       <div className="flex items-center gap-2">
         <h3 className="text-md font-semibold">{project.name}</h3>
         {project.types.map((type, index) => (
-          <Badge key={index} variant="secondary">
+          <Badge key={index} variant="secondary" className="hidden sm:block">
             {type}
           </Badge>
         ))}

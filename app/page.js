@@ -38,17 +38,18 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <ProjectColumn
-              title="Screen Time"
-              projects={config.screenTimeProjects}
-              category="screen-time"
-              description="Apps that help you reduce your screen time and/or block distracting websites."
-            />
-            <ProjectColumn
               title="Alternatives"
               projects={config.replacementProjects}
               category="replacements"
               description={`Apps that help you reclaim your attention and "slower" alternatives to popular time-wasting apps.`}
             />
+            <ProjectColumn
+              title="Screen Time"
+              projects={config.screenTimeProjects}
+              category="screen-time"
+              description="Apps that help you reduce your screen time and/or block distracting websites."
+            />
+
             <ProjectColumn
               title="Productivity"
               projects={config.productivityProjects}

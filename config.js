@@ -269,9 +269,9 @@ const config = {
       tagline: "End the scrolling, start your day",
       picture: "/goodmornin/gm-icon.png",
       description: [
-        "Sends a daily customizable text which can include news, weather, sports, and more",
+        "Sends a daily customizable text or email which can include news, weather, sports, and more",
         "Provides a concise summary to start your day",
-        "Allows you to start your day without being influnced by ads or other distractions",
+        "Allows you to start your day without being influenced by ads or other distractions",
         "Reduces the need for endless scrolling through social media",
       ],
       images: [
