@@ -3,6 +3,7 @@ import { getSEOTags } from "@/libs/seo";
 import ClientLayout from "@/components/LayoutClient";
 import config from "@/config";
 import "./globals.css";
+import SideNav from "@/components/SideNav";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -40,7 +41,14 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body>
-        <ClientLayout>{children}</ClientLayout>
+        <ClientLayout>
+          <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+            <div className="hidden border-r bg-muted/40 md:block">
+              <SideNav />
+            </div>
+            <div className="flex flex-col">{children}</div>
+          </div>
+        </ClientLayout>
       </body>
     </html>
   );
