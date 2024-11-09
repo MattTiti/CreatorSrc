@@ -10,15 +10,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { formatCurrency } from "@/lib/utils";
 
 export default function CreatorCard({ creator }) {
   if (!creator) return null;
-
-  // Helper function to format price range
-  const formatPriceRange = (min, max) => {
-    if (!max) return `From $${min}`;
-    return `$${min} - $${max}`;
-  };
 
   // Helper function to truncate text
   const truncateText = (text, maxLength) => {
@@ -26,39 +21,68 @@ export default function CreatorCard({ creator }) {
     return text.slice(0, maxLength) + "...";
   };
 
+  // Calculate total available slots and items
+  const MAX_VISIBLE_ITEMS = 4; // Reduced to ensure space for "+more" badge
+  const totalItems =
+    (creator.platforms?.length || 0) + (creator.tags?.length || 0);
+  const hiddenCount = Math.max(0, totalItems - MAX_VISIBLE_ITEMS);
+
+  // Determine how many of each type to show
+  const platformsToShow = Math.min(
+    creator.platforms?.length || 0,
+    Math.floor(MAX_VISIBLE_ITEMS / 2)
+  );
+  const tagsToShow = Math.min(
+    creator.tags?.length || 0,
+    MAX_VISIBLE_ITEMS - platformsToShow
+  );
+
   return (
     <Card className="hover:shadow-lg transition-shadow h-[320px] flex flex-col">
       <CardHeader className="flex flex-row items-center gap-4 flex-shrink-0">
         <Avatar>
-          <AvatarImage src={creator.avatar} alt={creator.name} />
-          <AvatarFallback>{creator.name[0]}</AvatarFallback>
+          <AvatarImage src={creator.avatar} alt={creator.displayName} />
+          <AvatarFallback>{creator.displayName[0]}</AvatarFallback>
         </Avatar>
         <div>
-          <CardTitle className="line-clamp-1">{creator.name}</CardTitle>
+          <CardTitle className="line-clamp-1">{creator.displayName}</CardTitle>
           <CardDescription className="line-clamp-1">
-            {creator.specialty}
+            {creator.shortTitle}
           </CardDescription>
         </div>
       </CardHeader>
       <CardContent className="flex-1 overflow-hidden">
         <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">
-          {creator.description}
+          {creator.about}
         </p>
         <div className="flex flex-wrap gap-2 overflow-hidden max-h-[72px]">
-          {creator.tags?.map((tag) => (
-            <Badge key={tag} variant="secondary" className="mb-2">
+          {creator.platforms?.slice(0, platformsToShow).map((platform) => (
+            <Badge key={platform} variant="secondary" className="mb-2">
+              {truncateText(platform, 20)}
+            </Badge>
+          ))}
+          {creator.tags?.slice(0, tagsToShow).map((tag) => (
+            <Badge key={tag} variant="outline" className="mb-2">
               {truncateText(tag, 20)}
             </Badge>
           ))}
+          {hiddenCount > 0 && (
+            <Badge variant="outline" className="mb-2 shrink-0">
+              +{hiddenCount} more
+            </Badge>
+          )}
         </div>
       </CardContent>
       <CardFooter className="flex justify-between items-center flex-shrink-0 border-t pt-4">
         <div className="text-sm font-medium text-gray-500 dark:text-gray-400">
-          Avg. Price:{" "}
-          {formatPriceRange(creator.priceRange?.min, creator.priceRange?.max)}
+          {creator.priceRange?.max
+            ? `Avg. Price: ${formatCurrency(
+                creator.priceRange.min
+              )} - ${formatCurrency(creator.priceRange.max)}`
+            : `Avg. Price: ${formatCurrency(creator.priceRange.min)}+`}
         </div>
         <Button variant="outline" size="sm" asChild>
-          <Link href={`/creators/${creator.id}`}>See More</Link>
+          <Link href={`/creator/${creator.username}`}>View Profile</Link>
         </Button>
       </CardFooter>
     </Card>

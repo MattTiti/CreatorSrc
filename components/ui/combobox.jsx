@@ -21,15 +21,23 @@ import {
 
 export function Combobox({
   options,
-  value,
+  value = [],
   onValueChange,
-  placeholder = "Select an option...",
+  placeholder = "Select options...",
   searchPlaceholder = "Search...",
   emptyMessage = "No option found.",
   className,
   disabled = false,
 }) {
   const [open, setOpen] = React.useState(false);
+
+  const getSelectedLabels = () => {
+    if (!value.length) return placeholder;
+    if (value.length === 1) {
+      return options.find((option) => option.value === value[0])?.label;
+    }
+    return `${value.length} selected`;
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -38,16 +46,14 @@ export function Combobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className={cn("w-full justify-between", className)}
+          className={cn("w-auto justify-between", className)}
           disabled={disabled}
         >
-          {value
-            ? options.find((option) => option.value === value)?.label
-            : placeholder}
+          {getSelectedLabels()}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[45vw] p-0">
+      <PopoverContent className="w-auto p-0">
         <Command className="bg-white w-full">
           <CommandInput placeholder={searchPlaceholder} />
           <CommandList>
@@ -58,14 +64,18 @@ export function Combobox({
                   key={option.value}
                   value={option.value}
                   onSelect={(currentValue) => {
-                    onValueChange(currentValue === value ? "" : currentValue);
-                    setOpen(false);
+                    onValueChange((prev) => {
+                      if (prev.includes(currentValue)) {
+                        return prev.filter((v) => v !== currentValue);
+                      }
+                      return [...prev, currentValue];
+                    });
                   }}
                 >
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value === option.value ? "opacity-100" : "opacity-0"
+                      value.includes(option.value) ? "opacity-100" : "opacity-0"
                     )}
                   />
                   {option.label}

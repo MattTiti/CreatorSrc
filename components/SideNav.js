@@ -3,16 +3,17 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  HomeIcon,
   Users2Icon,
   Store,
   ShoppingBagIcon,
   LogInIcon,
+  CircleUserRound,
 } from "lucide-react";
 import { Globe } from "lucide-react";
 import config from "@/config";
+import { useSession } from "next-auth/react";
 
-function NavItem({ href, icon: Icon, label, active }) {
+function NavItem({ href, icon: Icon, label, active, size = "h-4 w-4" }) {
   if (!Icon) return null;
   return (
     <Link
@@ -23,7 +24,7 @@ function NavItem({ href, icon: Icon, label, active }) {
           : "text-muted-foreground hover:bg-muted/50 hover:text-primary"
       }`}
     >
-      <Icon className="h-4 w-4" />
+      <Icon className={size} />
       {label}
     </Link>
   );
@@ -31,6 +32,7 @@ function NavItem({ href, icon: Icon, label, active }) {
 
 export function SideNav() {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const routes = [
     {
@@ -60,26 +62,36 @@ export function SideNav() {
       </div>
 
       <div className="flex-1 overflow-auto">
-        <nav className="grid items-start px-2 text-sm font-medium">
+        <nav className="grid items-start p-2 text-sm font-medium gap-1">
           {routes.map((route) => (
             <NavItem
               key={route.href}
               href={route.href}
               icon={route.icon}
               label={route.label}
-              active={pathname === route.href}
+              active={pathname.startsWith(route.href)}
             />
           ))}
         </nav>
       </div>
 
       <div className="mt-auto border-t p-4">
-        <NavItem
-          href="/login"
-          icon={LogInIcon}
-          label="Sign In / Sign Up"
-          active={pathname === "/login"}
-        />
+        {session ? (
+          <NavItem
+            href="/profile"
+            icon={CircleUserRound}
+            label="Your Account"
+            active={pathname === "/profile"}
+            size="h-6 w-6"
+          />
+        ) : (
+          <NavItem
+            href="/login"
+            icon={LogInIcon}
+            label="Sign In / Sign Up"
+            active={pathname === "/login"}
+          />
+        )}
       </div>
     </div>
   );

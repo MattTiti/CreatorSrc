@@ -24,7 +24,7 @@ export default function SignIn() {
   const handleEmailSignIn = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    signIn("email", { email, callbackUrl: "/dashboard" });
+    signIn("email", { email, callbackUrl: "/profile" });
   };
 
   return (
@@ -56,7 +56,7 @@ export default function SignIn() {
                       <Button
                         key={provider.name}
                         onClick={() =>
-                          signIn(provider.id, { callbackUrl: "/dashboard" })
+                          signIn(provider.id, { callbackUrl: "/profile" })
                         }
                         className="w-full p-6 text-black"
                         variant="outline"

@@ -6,7 +6,7 @@ import FloatingCards from "@/components/FloatingCards";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import config from "@/config";
-import { Star } from "lucide-react";
+import { Star, Users2 } from "lucide-react";
 import { useState } from "react";
 
 export default function CreatorsPage() {
@@ -18,7 +18,7 @@ export default function CreatorsPage() {
     e.preventDefault(); // Prevent form submission refresh
     if (searchQuery.trim()) {
       router.push(
-        `/browse-creators?search=${encodeURIComponent(searchQuery.trim())}`
+        `/find-creators/all?search=${encodeURIComponent(searchQuery.trim())}`
       );
     }
   };
@@ -26,7 +26,7 @@ export default function CreatorsPage() {
   return (
     <div>
       {/* Hero Search Section */}
-      <div className="sticky top-0 min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-gray-50 to-gray-100 relative">
+      <div className="sticky top-0 min-h-[70vh] flex items-center justify-center overflow-hidden bg-gradient-to-b from-gray-50 to-blue-100 relative">
         {/* Background Cards */}
         <div className="absolute inset-0 w-[200%] h-[200%] -translate-x-1/4 -translate-y-1/4">
           <FloatingCards />
@@ -38,9 +38,12 @@ export default function CreatorsPage() {
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto rounded-2xl p-12">
-            <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
-              Find Creators
-            </h1>
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <Users2 className="w-11 h-11 text-black/80" />
+              <h1 className="text-5xl font-bold text-black/80">
+                Find Creators
+              </h1>
+            </div>
             <form onSubmit={handleSearch} className="max-w-xl mx-auto">
               <Input
                 type="search"
@@ -55,14 +58,14 @@ export default function CreatorsPage() {
       </div>
 
       {/* Creators Grid Section */}
-      <div className="bg-white rounded-t-[2.5rem] relative z-20 border-t border-gray-200 px-4 shadow-lg -mt-8">
+      <div className="bg-white rounded-t-[2.5rem] relative z-20 border-t border-gray-200 px-4 -mt-8">
         <div className="container mx-auto py-12 px-4">
           <div className="flex items-center justify-between mb-10">
             <h2 className="text-3xl font-semibold flex items-center gap-3">
               <Star className="w-8 h-8 text-gray-700" />
               Featured Creators
             </h2>
-            <Link href="/browse-creators">
+            <Link href="/find-creators/all">
               <Button variant="outline" className="hover:bg-gray-100">
                 View All
               </Button>
