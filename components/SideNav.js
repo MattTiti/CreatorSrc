@@ -11,7 +11,8 @@ import {
 } from "lucide-react";
 import { Globe } from "lucide-react";
 import config from "@/config";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
+import { Button } from "@/components/ui/button";
 
 function NavItem({ href, icon: Icon, label, active, size = "h-4 w-4" }) {
   if (!Icon) return null;
@@ -27,6 +28,31 @@ function NavItem({ href, icon: Icon, label, active, size = "h-4 w-4" }) {
       <Icon className={size} />
       {label}
     </Link>
+  );
+}
+
+function AccountSection({ pathname }) {
+  return (
+    <div className="grid grid-cols-2 gap-2">
+      <Button
+        asChild
+        variant={pathname === "/profile" ? "secondary" : "outline"}
+        className="w-full justify-center"
+      >
+        <Link href="/profile">
+          <CircleUserRound className="h-4 w-4" />
+          Account
+        </Link>
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() => signOut()}
+        className="w-full justify-center"
+      >
+        <LogInIcon className="h-4 w-4 rotate-180" />
+        Sign Out
+      </Button>
+    </div>
   );
 }
 
@@ -80,13 +106,7 @@ export function SideNav() {
 
       <div className="mt-auto border-t p-4">
         {session ? (
-          <NavItem
-            href="/profile"
-            icon={CircleUserRound}
-            label="Your Account"
-            active={pathname === "/profile"}
-            size="h-6 w-6"
-          />
+          <AccountSection pathname={pathname} />
         ) : (
           <NavItem
             href="/login"

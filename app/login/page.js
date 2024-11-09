@@ -30,7 +30,7 @@ export default function SignIn() {
   return (
     <div className="flex min-h-screen bg-white">
       {isLoading ? (
-        <div className="flex justify-center items-center h-screen w-screen">
+        <div className="flex justify-center items-center h-full w-full">
           <Spinner />
         </div>
       ) : (
