@@ -3,13 +3,13 @@ import themes from "daisyui/src/theming/themes";
 const config = {
   appName: "Creator Source",
   appDescription:
-    "A collection of digital minimalist tools to help you reduce distractions and increase productivity.",
-  domainName: "minimalmarket.app",
+    "Connect and collaborate with creators and brands through one platform.",
+  domainName: "creatorsource.io",
   mailgun: {
     subdomain: "mg",
-    fromNoReply: `Minimal Market <noreply@mg.minimalmarket.app>`,
-    fromAdmin: `Matt at Minimal Market <matt@mg.minimalmarket.app>`,
-    supportEmail: "matt@mg.minimalmarket.app",
+    fromNoReply: `Creator Source <noreply@mg.creatorsource.io>`,
+    fromAdmin: `Matt at Creator Source <matt@mg.creatorsource.io>`,
+    supportEmail: "matt@mg.creatorsource.io",
     forwardRepliesTo: "matthewtiti@gmail.com",
   },
   colors: {

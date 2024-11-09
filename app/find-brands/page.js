@@ -22,7 +22,7 @@ export default function BrandsPage() {
       );
     }
   };
-
+  console.log(brands);
   return (
     <div>
       {/* Hero Search Section */}

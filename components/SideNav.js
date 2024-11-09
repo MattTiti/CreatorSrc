@@ -69,7 +69,10 @@ export function SideNav() {
               href={route.href}
               icon={route.icon}
               label={route.label}
-              active={pathname.startsWith(route.href)}
+              active={
+                pathname.startsWith(route.href) ||
+                (route.label === "Find Creators" && pathname === "/")
+              }
             />
           ))}
         </nav>
