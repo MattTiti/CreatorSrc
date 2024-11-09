@@ -3,7 +3,7 @@ import { getSEOTags } from "@/libs/seo";
 import ClientLayout from "@/components/LayoutClient";
 import config from "@/config";
 import "./globals.css";
-import { SideNav } from "@/components/SideNav.js";
+import { SideNav } from "@/components/SideNav";
 
 const font = Inter({ subsets: ["latin"] });
 
