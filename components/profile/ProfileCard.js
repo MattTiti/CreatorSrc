@@ -91,7 +91,7 @@ export function ProfileCard({
           <CardTitle>Profile Information</CardTitle>
           <CardDescription>Update your profile information</CardDescription>
         </div>
-        <Button variant="outline" size="sm" disabled={!formData._id} asChild>
+        <Button variant="outline" size="sm" disabled={!formData._id}>
           <Link
             href={`/${accountType === "creator" ? "creator" : "brand"}/${
               formData.username
