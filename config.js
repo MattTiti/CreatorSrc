@@ -3,7 +3,7 @@ import themes from "daisyui/src/theming/themes";
 const config = {
   appName: "Creator Source",
   appDescription:
-    "Connect and collaborate with creators and brands through one platform.",
+    "The platform for connecting brands and products with creators.",
   domainName: "creatorsource.io",
   mailgun: {
     subdomain: "mg",
