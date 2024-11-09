@@ -276,7 +276,7 @@ export default function ProfilePage() {
       if (data.profile) {
         // Update form data with profile information
         setFormData({
-          _id: data.profile._id || "",
+          _id: data.profile._id,
           displayName: data.profile.displayName || "",
           username: data.profile.username || "",
           contactEmail: data.profile.contactEmail || "",
