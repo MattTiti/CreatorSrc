@@ -4,6 +4,7 @@ import ClientLayout from "@/components/LayoutClient";
 import config from "@/config";
 import "./globals.css";
 import { SideNav } from "@/components/SideNav";
+import { MobileNav } from "@/components/MobileNav";
 import Footer from "@/components/Footer";
 
 const font = Inter({ subsets: ["latin"] });
@@ -48,6 +49,10 @@ export default function RootLayout({ children }) {
               <SideNav />
             </div>
             <div className="flex flex-col">
+              <header className="sticky top-0 z-50 flex h-14 items-center gap-4 border-b bg-background px-4 lg:h-[60px] lg:px-6 md:hidden">
+                <MobileNav />
+                <div className="flex-1">{config.appName}</div>
+              </header>
               {children}
               <Footer />
             </div>

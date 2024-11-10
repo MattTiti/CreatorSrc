@@ -89,14 +89,75 @@ export function ProfileCard({
   return (
     <Card className="mx-auto">
       <CardHeader className="space-y-0 pb-2">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <CardTitle>Profile Information</CardTitle>
-          <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" disabled={!formData._id}>
+            <Link
+              href={`/${accountType === "creator" ? "creator" : "brand"}/${
+                formData.username
+              }`}
+              className="flex items-center gap-2"
+            >
+              <ExternalLink className="h-4 w-4" />
+              <span className="hidden sm:inline">View Live Profile</span>
+              <span className="sm:hidden">View</span>
+            </Link>
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
+            <div className="relative">
+              <Avatar className="h-24 w-24">
+                <AvatarImage src={formData.avatar} />
+                <AvatarFallback>
+                  {formData.displayName?.charAt(0) ||
+                    formData.username?.charAt(0) ||
+                    "?"}
+                </AvatarFallback>
+              </Avatar>
+              {isUploading && (
+                <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
+                  <Loader2 className="h-6 w-6 text-white animate-spin" />
+                </div>
+              )}
+            </div>
+            <div className="space-y-2 text-center sm:text-left">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+                disabled={isUploading}
+              >
+                {isUploading ? "Uploading..." : "Change Profile Picture"}
+              </Button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageUpload}
+              />
+              <p className="text-sm text-black/60">
+                Recommended: Square image, at least 400x400px
+              </p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1">
+            <div className="flex items-center">
+              <Label>Status</Label>
+              <InfoIcon
+                className="ml-1"
+                description="Active profiles appear in search results and are visible to the public. Inactive profiles are hidden from the public, but can still be accessed directly by their live link."
+                type="warning"
+              />
+            </div>
             <Select
               value={formData.status}
               onValueChange={(value) => handleStatusChange(value)}
             >
-              <SelectTrigger className="">
+              <SelectTrigger className="w-[120px]">
                 <SelectValue placeholder="Status">
                   {formData.status === "active" ? (
                     <div className="flex items-center gap-2">
@@ -126,69 +187,9 @@ export function ProfileCard({
                 </SelectItem>
               </SelectContent>
             </Select>
-            <InfoIcon
-              className="flex items-start justify-start -ml-1"
-              description="Active profiles appear in search results and are visible to the public. Inactive profiles are hidden from the public, but can still be accessed directly by their live link."
-              type="warning"
-            />
-            <Button variant="outline" size="sm" disabled={!formData._id}>
-              <Link
-                href={`/${accountType === "creator" ? "creator" : "brand"}/${
-                  formData.username
-                }`}
-                className="flex items-center gap-2"
-              >
-                <ExternalLink className="h-4 w-4" />
-                View Live Profile
-              </Link>
-            </Button>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <Avatar className="h-24 w-24">
-                <AvatarImage src={formData.avatar} />
-                <AvatarFallback>
-                  {formData.displayName?.charAt(0) ||
-                    formData.username?.charAt(0) ||
-                    "?"}
-                </AvatarFallback>
-              </Avatar>
-              {isUploading && (
-                <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center">
-                  <Loader2 className="h-6 w-6 text-white animate-spin" />
-                </div>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={isUploading}
-              >
-                {isUploading ? "Uploading..." : "Change Profile Picture"}
-              </Button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageUpload}
-              />
-              <p className="text-sm text-black/60">
-                Recommended: Square image, at least 400x400px
-              </p>
-            </div>
-          </div>
-
-          {/* Basic Information */}
           <div className="space-y-4">
-            {/* Username, Account Type, and Rules */}
-            <div className="grid grid-cols-[2fr,1fr] gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-[2fr,1fr] gap-4">
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="username">
@@ -243,8 +244,7 @@ export function ProfileCard({
               </div>
             </div>
 
-            {/* Display Name and Email side by side */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="displayName">
                   Display Name <span className="text-destructive">*</span>
@@ -305,17 +305,33 @@ export function ProfileCard({
             </div>
 
             <div className="space-y-2">
-              <Label>Links</Label>
-              <div className="space-y-3">
-                {formData.links.map((link, index) => (
-                  <div key={index} className="flex gap-2">
+              <div className="flex items-center justify-between">
+                <Label>Links</Label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={addLink}
+                  className="h-8"
+                >
+                  Add Link
+                </Button>
+              </div>
+              <div className="space-y-2">
+                {(formData.links?.length
+                  ? formData.links
+                  : [{ name: "", url: "" }]
+                ).map((link, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-[1fr,2fr,auto] sm:grid-cols-[1fr,3fr,auto] gap-2"
+                  >
                     <Input
                       value={link.name}
                       onChange={(e) =>
                         handleLinkChange(index, "name", e.target.value)
                       }
                       placeholder="Link name (e.g., Website, Twitter)"
-                      className="w-1/3"
                     />
                     <Input
                       value={link.url}
@@ -325,7 +341,7 @@ export function ProfileCard({
                       placeholder="https://your-website.com"
                       className="flex-1"
                     />
-                    {formData.links.length > 1 && (
+                    {(formData.links?.length || 0) > 1 && (
                       <Button
                         type="button"
                         variant="ghost"
@@ -338,25 +354,15 @@ export function ProfileCard({
                     )}
                   </div>
                 ))}
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="mt-2"
-                  onClick={addLink}
-                >
-                  Add Link
-                </Button>
               </div>
             </div>
           </div>
 
-          {/* Creator Specific Fields */}
-          {accountType === "creator" && (
+          {accountType === "creator" ? (
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label>Price Range (USD)</Label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label
                       htmlFor="minPrice"
@@ -480,10 +486,7 @@ export function ProfileCard({
                 )}
               </div>
             </div>
-          )}
-
-          {/* Brand Specific Fields */}
-          {accountType === "brand" && (
+          ) : (
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="industry">Industry</Label>
@@ -498,7 +501,7 @@ export function ProfileCard({
 
               <div className="space-y-2">
                 <Label>Marketing Budget Range (USD)</Label>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label
                       htmlFor="minBudget"
@@ -568,9 +571,11 @@ export function ProfileCard({
             </div>
           )}
 
-          <Button type="submit" className="w-full">
-            Publish Profile
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" className="w-full sm:w-auto">
+              Publish Profile
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Card>

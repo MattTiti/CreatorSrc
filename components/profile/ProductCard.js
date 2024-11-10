@@ -139,14 +139,102 @@ export default function ProductCard({
   return (
     <Card key={index} className="mx-auto relative">
       <CardHeader className="space-y-0 pb-2">
-        <div className="flex items-center justify-between">
+        <div className="absolute top-2 right-2 sm:hidden">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button variant="ghost" size="icon" className="shrink-0">
+                <X className="h-4 w-4" />
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete Product</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Are you sure you want to delete this product? This action
+                  cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => removeProduct(index)}
+                  className="bg-red-700 hover:bg-red-700/90"
+                >
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <CardTitle>Product {index + 1}</CardTitle>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={!product._id}
+                className="flex-1 sm:flex-none"
+              >
+                <Link
+                  href={`/product/${product._id}`}
+                  className="flex items-center gap-2"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  <span className="hidden sm:inline">View Live Product</span>
+                  <span className="sm:hidden">View</span>
+                </Link>
+              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="shrink-0 hidden sm:flex"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Delete Product</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      Are you sure you want to delete this product? This action
+                      cannot be undone.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={() => removeProduct(index)}
+                      className="bg-red-700 hover:bg-red-700/90"
+                    >
+                      Delete
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </div>
+        </div>
+      </CardHeader>
+
+      <CardContent>
+        <form onSubmit={handleProductSubmit} className="space-y-6">
+          <div className="grid grid-cols-1">
+            <div className="flex items-center">
+              <Label>Status</Label>
+              <InfoIcon
+                className="ml-1"
+                description="Active profiles appear in search results and are visible to the public. Inactive profiles are hidden from the public, but can still be accessed directly by their live link."
+                type="warning"
+              />
+            </div>
             <Select
               value={product?.status}
               onValueChange={(value) => handleProductStatusChange(index, value)}
             >
-              <SelectTrigger className="">
+              <SelectTrigger className="w-[120px]">
                 <SelectValue placeholder="Status">
                   {product?.status === "active" ? (
                     <div className="flex items-center gap-2">
@@ -176,160 +264,207 @@ export default function ProductCard({
                 </SelectItem>
               </SelectContent>
             </Select>
-            <InfoIcon
-              className="flex items-start justify-start -ml-1"
-              description="Active profiles appear in search results and are visible to the public. Inactive profiles are hidden from the public, but can still be accessed directly by their live link."
-              type="warning"
-            />
-            <Button variant="outline" size="sm" disabled={!product._id}>
-              <Link
-                href={`/product/${product._id}`}
-                className="flex items-center gap-2"
-              >
-                <ExternalLink className="h-4 w-4" />
-                View Live Page
-              </Link>
-            </Button>
-            <AlertDialog>
-              <AlertDialogTrigger>
-                <Button variant="ghost" size="icon" className="">
-                  <X className="h-4 w-4" />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Delete Product</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Are you sure you want to delete this product? This action
-                    cannot be undone.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => removeProduct(index)}
-                    className="bg-red-700 hover:bg-red-700/90"
-                  >
-                    Delete
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
           </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleProductSubmit} className="space-y-6">
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="productName">
-                  Product Name <span className="text-destructive">*</span>
-                </Label>
-                <Input
-                  id="productName"
-                  name="name"
-                  value={product.name}
-                  onChange={handleProductInputChange}
-                  placeholder="Enter product name"
-                  required
-                />
-              </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="category">
-                  Short Title <span className="text-destructive">*</span>
-                </Label>
-                <Input
-                  id="category"
-                  name="category"
-                  value={product.category}
-                  onChange={handleProductInputChange}
-                  placeholder="e.g., To-Do App, AI Expense Tracker, etc."
-                  required
-                />
-              </div>
-            </div>
-
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Marketing Budget Range (USD)</Label>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="minBudget"
-                    className="text-sm text-muted-foreground"
-                  >
-                    Minimum <span className="text-destructive">*</span>
-                  </Label>
-                  <Input
-                    id="minBudget"
-                    type="number"
-                    value={product.marketingBudget.min}
-                    onChange={(e) => handleBudgetChange("min", e.target.value)}
-                    placeholder="Min budget"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label
-                    htmlFor="maxBudget"
-                    className="text-sm text-muted-foreground"
-                  >
-                    Maximum
-                  </Label>
-                  <Input
-                    id="maxBudget"
-                    type="number"
-                    value={product.marketingBudget.max}
-                    onChange={(e) => handleBudgetChange("max", e.target.value)}
-                    placeholder="Max budget"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description">
-                Description <span className="text-destructive">*</span>
+              <Label htmlFor="productName">
+                Product Name <span className="text-destructive">*</span>
               </Label>
-              <Textarea
-                id="description"
-                name="description"
-                value={product.description}
+              <Input
+                id="productName"
+                name="name"
+                value={product.name}
                 onChange={handleProductInputChange}
-                placeholder="Describe your product"
-                rows={4}
+                placeholder="Enter product name"
+                required
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor={`productTags-${index}`}>Tags</Label>
+              <Label htmlFor="category">
+                Short Title <span className="text-destructive">*</span>
+              </Label>
               <Input
-                id={`productTags-${index}`}
-                onKeyDown={(e) => handleProductTagKeyDown(index, e)}
-                placeholder="Type a tag and press Enter"
+                id="category"
+                name="category"
+                value={product.category}
+                onChange={handleProductInputChange}
+                placeholder="e.g., To-Do App, AI Expense Tracker, etc."
+                required
               />
-              {product.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2">
-                  {product.tags.map((tag) => (
-                    <Badge
-                      key={tag}
-                      variant="secondary"
-                      className="px-2 py-1 flex items-center gap-1"
-                    >
-                      {tag}
-                      <X
-                        className="h-3 w-3 cursor-pointer hover:text-destructive"
-                        onClick={() => removeProductTag(index, tag)}
-                      />
-                    </Badge>
-                  ))}
-                </div>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Marketing Budget Range (USD)</Label>
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label
+                  htmlFor="minBudget"
+                  className="text-sm text-muted-foreground"
+                >
+                  Minimum <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="minBudget"
+                  type="number"
+                  value={product.marketingBudget.min}
+                  onChange={(e) => handleBudgetChange("min", e.target.value)}
+                  placeholder="Min budget"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label
+                  htmlFor="maxBudget"
+                  className="text-sm text-muted-foreground"
+                >
+                  Maximum
+                </Label>
+                <Input
+                  id="maxBudget"
+                  type="number"
+                  value={product.marketingBudget.max}
+                  onChange={(e) => handleBudgetChange("max", e.target.value)}
+                  placeholder="Max budget"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="description">
+              Description <span className="text-destructive">*</span>
+            </Label>
+            <Textarea
+              id="description"
+              name="description"
+              value={product.description}
+              onChange={handleProductInputChange}
+              placeholder="Describe your product"
+              rows={4}
+            />
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <Label>Links</Label>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const updatedProduct = {
+                    ...product,
+                    links: [
+                      ...(product.links || [{ name: "", url: "" }]),
+                      { name: "", url: "" },
+                    ],
+                  };
+                  handleProductInputChange({
+                    target: { name: "links", value: updatedProduct.links },
+                  });
+                }}
+                className="h-8"
+              >
+                Add Link
+              </Button>
+            </div>
+            <div className="space-y-2">
+              {(product.links || [{ name: "", url: "" }]).map(
+                (link, linkIndex) => (
+                  <div
+                    key={linkIndex}
+                    className="grid grid-cols-[1fr,2fr,auto] sm:grid-cols-[1fr,3fr,auto] gap-2"
+                  >
+                    <Input
+                      value={link.name}
+                      onChange={(e) => {
+                        const updatedLinks = [
+                          ...(product.links || [{ name: "", url: "" }]),
+                        ];
+                        updatedLinks[linkIndex] = {
+                          ...updatedLinks[linkIndex],
+                          name: e.target.value,
+                        };
+                        handleProductInputChange({
+                          target: { name: "links", value: updatedLinks },
+                        });
+                      }}
+                      placeholder="Link name (e.g., Website, Store)"
+                    />
+                    <Input
+                      value={link.url}
+                      onChange={(e) => {
+                        const updatedLinks = [
+                          ...(product.links || [{ name: "", url: "" }]),
+                        ];
+                        updatedLinks[linkIndex] = {
+                          ...updatedLinks[linkIndex],
+                          url: e.target.value,
+                        };
+                        handleProductInputChange({
+                          target: { name: "links", value: updatedLinks },
+                        });
+                      }}
+                      placeholder="https://your-website.com"
+                      className="flex-1"
+                    />
+                    {(product.links || [{ name: "", url: "" }]).length > 1 && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="shrink-0 hover:bg-destructive/10 hover:text-destructive"
+                        onClick={() => {
+                          const updatedLinks = [
+                            ...(product.links || [{ name: "", url: "" }]),
+                          ];
+                          updatedLinks.splice(linkIndex, 1);
+                          handleProductInputChange({
+                            target: { name: "links", value: updatedLinks },
+                          });
+                        }}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    )}
+                  </div>
+                )
               )}
             </div>
+          </div>
 
+          <div className="space-y-2">
+            <Label htmlFor={`productTags-${index}`}>Tags</Label>
+            <Input
+              id={`productTags-${index}`}
+              onKeyDown={(e) => handleProductTagKeyDown(index, e)}
+              placeholder="Type a tag and press Enter"
+            />
+            {product.tags.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-2">
+                {product.tags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant="secondary"
+                    className="px-2 py-1 flex items-center gap-1"
+                  >
+                    {tag}
+                    <X
+                      className="h-3 w-3 cursor-pointer hover:text-destructive"
+                      onClick={() => removeProductTag(index, tag)}
+                    />
+                  </Badge>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="space-y-4">
             <div className="space-y-2">
               <Label>Product Avatar</Label>
-              <div className="flex items-center gap-4">
+              <div className="flex flex-col sm:flex-row items-center gap-4">
                 <input
                   type="file"
                   accept="image/*"
@@ -361,7 +496,7 @@ export default function ProductCard({
 
             <div className="space-y-2">
               <Label>Product Images (Max 3)</Label>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
                 {[0, 1, 2].map((imgIndex) => (
                   <div key={imgIndex}>
                     <input
@@ -429,10 +564,11 @@ export default function ProductCard({
               </div>
             </div>
           </div>
-
-          <Button type="submit" className="w-full">
-            Save Product
-          </Button>
+          <div className="flex justify-end">
+            <Button type="submit" className="w-full sm:w-auto">
+              Save Product
+            </Button>
+          </div>
         </form>
       </CardContent>
     </Card>

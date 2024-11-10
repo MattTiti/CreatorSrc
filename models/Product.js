@@ -40,6 +40,12 @@ const productSchema = mongoose.Schema(
       enum: ["active", "inactive"],
       default: "active",
     },
+    links: [
+      {
+        name: String,
+        url: String,
+      },
+    ],
   },
   { timestamps: true }
 );

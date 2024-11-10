@@ -44,6 +44,7 @@ export async function POST(request) {
           images: productData.images,
           brandId: brand._id,
           status: productData.status,
+          links: productData.links,
         },
         { new: true }
       );
@@ -58,6 +59,7 @@ export async function POST(request) {
         images: productData.images,
         brandId: brand._id,
         status: productData.status,
+        links: productData.links,
       });
     }
 

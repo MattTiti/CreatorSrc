@@ -25,6 +25,7 @@ export async function GET(request, { params }) {
         avatar: product.avatar,
         images: product.images,
         status: product.status,
+        links: product.links,
       },
     });
   } catch (error) {

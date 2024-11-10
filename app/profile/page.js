@@ -42,6 +42,7 @@ export default function ProfilePage() {
       },
       tags: [],
       images: [],
+      links: [{ name: "", url: "" }],
       status: "active",
     },
   ]);
@@ -206,6 +207,7 @@ export default function ProfilePage() {
         },
         tags: [],
         images: [],
+        links: [{ name: "", url: "" }],
         status: "active",
       },
     ]);
