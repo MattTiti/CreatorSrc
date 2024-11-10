@@ -33,7 +33,6 @@ function SearchComponent() {
   });
   const [filteredBrands, setFilteredBrands] = useState(config.brands);
   const [openBudget, setOpenBudget] = useState(false);
-  const [openIndustries, setOpenIndustries] = useState(false);
 
   // Configure Fuse options
   const fuseOptions = {

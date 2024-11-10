@@ -33,7 +33,6 @@ function SearchComponent() {
   });
   const [filteredProducts, setFilteredProducts] = useState(config.products);
   const [openBudget, setOpenBudget] = useState(false);
-  const [openCategories, setOpenCategories] = useState(false);
 
   // Configure Fuse options
   const fuseOptions = {
@@ -207,7 +206,7 @@ function SearchComponent() {
                   className="cursor-pointer"
                   onClick={() => handleCategorySelect(category)}
                 >
-                  {CATEGORIES.find((c) => c.value === category)?.label} ×
+                  {INDUSTRIES.find((c) => c.value === category)?.label} ×
                 </Badge>
               ))}
             </div>

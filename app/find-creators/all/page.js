@@ -33,7 +33,6 @@ function SearchComponent() {
   });
   const [filteredCreators, setFilteredCreators] = useState(config.creators);
   const [openPrice, setOpenPrice] = useState(false);
-  const [openPlatforms, setOpenPlatforms] = useState(false);
 
   // Configure Fuse options
   const fuseOptions = {
