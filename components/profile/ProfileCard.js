@@ -223,7 +223,7 @@ export function ProfileCard({
               </div>
 
               <div className="space-y-2 bg-muted/50 p-3 rounded-lg">
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-black/70">
                   Username rules:
                   <ul className="list-disc list-inside mt-1">
                     <li>Only letters, numbers, and underscores</li>
@@ -232,7 +232,7 @@ export function ProfileCard({
                     <li>All lowercase</li>
                   </ul>
                 </div>
-                <p className="text-sm text-muted-foreground mt-2">
+                <p className="text-sm text-black/70 mt-2">
                   Your profile URL will be:
                   <br />
                   <span className="font-mono text-primary">
