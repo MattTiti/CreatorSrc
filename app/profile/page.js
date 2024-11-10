@@ -156,24 +156,28 @@ export default function ProfilePage() {
     }));
   };
 
-  const handleProductInputChange = (e) => {
+  const handleProductInputChange = (productIndex, e) => {
     const { name, value } = e.target;
     setProducts((prev) =>
       prev.map((product, index) =>
-        index === 0 ? { ...product, [name]: value } : product
+        index === productIndex ? { ...product, [name]: value } : product
       )
     );
   };
 
-  const handleBudgetChange = (field, value) => {
+  const handleBudgetChange = (productIndex, field, value) => {
     setProducts((prev) =>
-      prev.map((product) => ({
-        ...product,
-        marketingBudget: {
-          ...product.marketingBudget,
-          [field]: value,
-        },
-      }))
+      prev.map((product, index) =>
+        index === productIndex
+          ? {
+              ...product,
+              marketingBudget: {
+                ...product.marketingBudget,
+                [field]: value,
+              },
+            }
+          : product
+      )
     );
   };
 
@@ -404,7 +408,9 @@ export default function ProfilePage() {
               handleProductInputChange={(e) =>
                 handleProductInputChange(index, e)
               }
-              handleBudgetChange={(value) => handleBudgetChange(index, value)}
+              handleBudgetChange={(field, value) =>
+                handleBudgetChange(index, field, value)
+              }
               removeProduct={() => removeProduct(index)}
               handleProductTagKeyDown={handleProductTagKeyDown}
               removeProductTag={removeProductTag}
@@ -412,7 +418,7 @@ export default function ProfilePage() {
               handleImageDelete={handleImageDelete}
             />
           ))}
-          <div className="max-w-5xl mx-auto">
+          <div className="mx-auto">
             <Button
               type="button"
               variant="outline"

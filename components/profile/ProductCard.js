@@ -130,7 +130,7 @@ export default function ProductCard({
   return (
     <Card key={index} className="mx-auto relative">
       <div className="absolute top-4 right-4 flex gap-2">
-        <Button variant="outline" size="sm" disabled={!product._id} asChild>
+        <Button variant="outline" size="sm" disabled={!product._id}>
           <Link
             href={`/product/${product._id}`}
             className="flex items-center gap-2"

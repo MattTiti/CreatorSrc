@@ -240,7 +240,11 @@ export function ProfileCard({
                 name="shortTitle"
                 value={formData.shortTitle}
                 onChange={handleInputChange}
-                placeholder="e.g., Fashion Photographer, Tech Reviewer"
+                placeholder={
+                  accountType === "creator"
+                    ? "e.g., Photographer, Tech Reviewer, etc."
+                    : "e.g., AI Expense Tracker, Marketing Agency, etc."
+                }
               />
             </div>
 
