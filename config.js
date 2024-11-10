@@ -17,7 +17,7 @@ const config = {
     main: themes["light"]["primary"],
     toast: "#000",
   },
-  googleAnalyticsId: "",
+  googleAnalyticsId: "G-VCG3T6HRQT",
   creators: [
     {
       userId: "placeholder1",
