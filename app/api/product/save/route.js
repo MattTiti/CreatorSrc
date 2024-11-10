@@ -43,6 +43,7 @@ export async function POST(request) {
           avatar: productData.avatar,
           images: productData.images,
           brandId: brand._id,
+          status: productData.status,
         },
         { new: true }
       );
@@ -56,6 +57,7 @@ export async function POST(request) {
         avatar: productData.avatar,
         images: productData.images,
         brandId: brand._id,
+        status: productData.status,
       });
     }
 

@@ -44,6 +44,7 @@ export async function GET(request) {
               industry: "",
               marketBudget: { min: "", max: "" },
               tags: [],
+              status: "inactive",
             }),
         products: products,
       },

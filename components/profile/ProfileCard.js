@@ -24,6 +24,7 @@ import { Loader2 } from "lucide-react";
 import { useState, useRef } from "react";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
+import InfoIcon from "@/components/InfoIcon";
 
 export function ProfileCard({
   formData,
@@ -42,6 +43,7 @@ export function ProfileCard({
   handleBrandBudgetChange,
   handlePriceRangeChange,
   PLATFORM_OPTIONS,
+  handleStatusChange,
 }) {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
@@ -86,22 +88,62 @@ export function ProfileCard({
 
   return (
     <Card className="mx-auto">
-      <CardHeader className="flex flex-row justify-between items-start space-y-0">
-        <div>
+      <CardHeader className="space-y-0 pb-2">
+        <div className="flex items-center justify-between">
           <CardTitle>Profile Information</CardTitle>
-          <CardDescription>Update your profile information</CardDescription>
+          <div className="flex items-center gap-2">
+            <Select
+              value={formData.status}
+              onValueChange={(value) => handleStatusChange(value)}
+            >
+              <SelectTrigger className="">
+                <SelectValue placeholder="Status">
+                  {formData.status === "active" ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500" />
+                      Active
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-red-500" />
+                      Inactive
+                    </div>
+                  )}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="active">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500" />
+                    Active
+                  </div>
+                </SelectItem>
+                <SelectItem value="inactive">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-red-500" />
+                    Inactive
+                  </div>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <InfoIcon
+              className="flex items-start justify-start -ml-1"
+              description="Active profiles appear in search results and are visible to the public. Inactive profiles are hidden from the public, but can still be accessed directly by their live link."
+              type="warning"
+            />
+            <Button variant="outline" size="sm" disabled={!formData._id}>
+              <Link
+                href={`/${accountType === "creator" ? "creator" : "brand"}/${
+                  formData.username
+                }`}
+                className="flex items-center gap-2"
+              >
+                <ExternalLink className="h-4 w-4" />
+                View Live Profile
+              </Link>
+            </Button>
+          </div>
         </div>
-        <Button variant="outline" size="sm" disabled={!formData._id}>
-          <Link
-            href={`/${accountType === "creator" ? "creator" : "brand"}/${
-              formData.username
-            }`}
-            className="flex items-center gap-2"
-          >
-            <ExternalLink className="h-4 w-4" />
-            View Live Profile
-          </Link>
-        </Button>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -137,7 +179,7 @@ export function ProfileCard({
                 className="hidden"
                 onChange={handleImageUpload}
               />
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-black/60">
                 Recommended: Square image, at least 400x400px
               </p>
             </div>

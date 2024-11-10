@@ -25,6 +25,7 @@ export async function GET(request, { params }) {
         platforms: creator.platforms,
         tags: creator.tags,
         links: creator.links,
+        status: creator.status,
       },
     });
   } catch (error) {

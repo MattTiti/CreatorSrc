@@ -55,6 +55,11 @@ const brandSchema = mongoose.Schema(
       trim: true,
       required: true,
     },
+    status: {
+      type: String,
+      enum: ["active", "inactive"],
+      default: "active",
+    },
   },
   { timestamps: true }
 );

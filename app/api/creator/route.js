@@ -40,6 +40,7 @@ export async function GET(request) {
               priceRange: { min: "", max: "" },
               platforms: [],
               tags: [],
+              status: "inactive",
             }),
       },
     });

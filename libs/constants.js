@@ -12,26 +12,29 @@ export const PRICE_RANGES = [
 
 export const PLATFORMS = [
   { value: "Instagram", label: "Instagram" },
+  { value: "TikTok", label: "TikTok" },
+  { value: "YouTube", label: "YouTube" },
+  { value: "Twitter", label: "Twitter" },
+  { value: "LinkedIn", label: "LinkedIn" },
+  { value: "Twitch", label: "Twitch" },
+  { value: "Pinterest", label: "Pinterest" },
+  { value: "Facebook", label: "Facebook" },
+  { value: "Discord", label: "Discord" },
+  { value: "Substack", label: "Substack" },
+  { value: "Medium", label: "Medium" },
   { value: "ArtStation", label: "ArtStation" },
   { value: "Behance", label: "Behance" },
-  { value: "YouTube", label: "YouTube" },
-  { value: "Vimeo", label: "Vimeo" },
   { value: "Dribbble", label: "Dribbble" },
-  { value: "LinkedIn", label: "LinkedIn" },
-];
-
-export const CATEGORIES = [
-  { value: "Business Intelligence", label: "Business Intelligence" },
-  { value: "Project Management", label: "Project Management" },
-  { value: "Security", label: "Security" },
-  { value: "HR Software", label: "HR Software" },
-  { value: "Sales Software", label: "Sales Software" },
-  { value: "Content Management", label: "Content Management" },
-  { value: "Developer Tools", label: "Developer Tools" },
-  { value: "Newsletter", label: "Newsletter" },
+  { value: "Vimeo", label: "Vimeo" },
+  { value: "Patreon", label: "Patreon" },
+  { value: "Reddit", label: "Reddit" },
+  { value: "Threads", label: "Threads" },
+  { value: "BeReal", label: "BeReal" },
+  { value: "Spotify", label: "Spotify" },
 ];
 
 export const INDUSTRIES = [
+  // Tech & Software
   { value: "Business Intelligence", label: "Business Intelligence" },
   { value: "Project Management", label: "Project Management" },
   { value: "Security", label: "Security" },
@@ -40,4 +43,31 @@ export const INDUSTRIES = [
   { value: "Content Management", label: "Content Management" },
   { value: "Developer Tools", label: "Developer Tools" },
   { value: "EdTech", label: "EdTech" },
+  { value: "FinTech", label: "FinTech" },
+  { value: "AI & Machine Learning", label: "AI & Machine Learning" },
+  { value: "Cloud Services", label: "Cloud Services" },
+
+  // Consumer & Retail
+  { value: "Fashion & Apparel", label: "Fashion & Apparel" },
+  { value: "Beauty & Cosmetics", label: "Beauty & Cosmetics" },
+  { value: "Health & Wellness", label: "Health & Wellness" },
+  { value: "Food & Beverage", label: "Food & Beverage" },
+  { value: "Home & Garden", label: "Home & Garden" },
+  { value: "Gaming & Entertainment", label: "Gaming & Entertainment" },
+  { value: "Sports & Fitness", label: "Sports & Fitness" },
+  { value: "Travel & Hospitality", label: "Travel & Hospitality" },
+
+  // Services
+  { value: "Financial Services", label: "Financial Services" },
+  { value: "Marketing & Advertising", label: "Marketing & Advertising" },
+  { value: "Consulting", label: "Consulting" },
+  { value: "E-commerce", label: "E-commerce" },
+  { value: "Real Estate", label: "Real Estate" },
+
+  // Emerging Markets
+  { value: "Sustainability", label: "Sustainability" },
+  { value: "Clean Energy", label: "Clean Energy" },
+  { value: "Web3 & Crypto", label: "Web3 & Crypto" },
+  { value: "Mental Health", label: "Mental Health" },
+  { value: "Pet Care", label: "Pet Care" },
 ];

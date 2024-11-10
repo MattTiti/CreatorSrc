@@ -11,7 +11,7 @@ import MultiSelect from "@/components/MultiSelect";
 import { ArrowLeft } from "lucide-react";
 import { Suspense } from "react";
 import { Combobox } from "@/components/ui/combobox";
-import { PRICE_RANGES, CATEGORIES } from "@/libs/constants";
+import { PRICE_RANGES, INDUSTRIES } from "@/libs/constants";
 export const dynamic = "force-dynamic";
 
 function SearchComponent() {
@@ -175,7 +175,7 @@ function SearchComponent() {
             />
 
             <Combobox
-              options={CATEGORIES.map((c) => ({
+              options={INDUSTRIES.map((c) => ({
                 value: c.value,
                 label: c.label,
               }))}

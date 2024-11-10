@@ -24,6 +24,7 @@ export async function GET(request, { params }) {
         tags: product.tags,
         avatar: product.avatar,
         images: product.images,
+        status: product.status,
       },
     });
   } catch (error) {

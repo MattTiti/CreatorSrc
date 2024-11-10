@@ -26,6 +26,14 @@ import toast from "react-hot-toast";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useState, useRef } from "react";
 import Link from "next/link";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import InfoIcon from "@/components/InfoIcon";
 
 export default function ProductCard({
   product,
@@ -37,6 +45,7 @@ export default function ProductCard({
   removeProductTag,
   handleImageUpload,
   handleImageDelete,
+  handleProductStatusChange,
 }) {
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
@@ -129,53 +138,84 @@ export default function ProductCard({
 
   return (
     <Card key={index} className="mx-auto relative">
-      <div className="absolute top-4 right-4 flex gap-2">
-        <Button variant="outline" size="sm" disabled={!product._id}>
-          <Link
-            href={`/product/${product._id}`}
-            className="flex items-center gap-2"
-          >
-            <ExternalLink className="h-4 w-4" />
-            View Live Page
-          </Link>
-        </Button>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hover:bg-destructive/10 hover:text-destructive"
+      <CardHeader className="space-y-0 pb-2">
+        <div className="flex items-center justify-between">
+          <CardTitle>Product {index + 1}</CardTitle>
+          <div className="flex items-center gap-2">
+            <Select
+              value={product?.status}
+              onValueChange={(value) => handleProductStatusChange(index, value)}
             >
-              <X className="h-4 w-4" />
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Delete Product</AlertDialogTitle>
-              <AlertDialogDescription>
-                Are you sure you want to delete this product? This action cannot
-                be undone.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction
-                onClick={() => removeProduct(index)}
-                className="bg-red-700 hover:bg-red-700/90"
+              <SelectTrigger className="">
+                <SelectValue placeholder="Status">
+                  {product?.status === "active" ? (
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-green-500" />
+                      Active
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-red-500" />
+                      Inactive
+                    </div>
+                  )}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="active">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500" />
+                    Active
+                  </div>
+                </SelectItem>
+                <SelectItem value="inactive">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-red-500" />
+                    Inactive
+                  </div>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+            <InfoIcon
+              className="flex items-start justify-start -ml-1"
+              description="Active profiles appear in search results and are visible to the public. Inactive profiles are hidden from the public, but can still be accessed directly by their live link."
+              type="warning"
+            />
+            <Button variant="outline" size="sm" disabled={!product._id}>
+              <Link
+                href={`/product/${product._id}`}
+                className="flex items-center gap-2"
               >
-                Delete
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </div>
-
-      <CardHeader className="flex flex-row justify-between items-start space-y-0">
-        <div>
-          <CardTitle>Product Information ({index + 1})</CardTitle>
-          <CardDescription>
-            Add details about your product or service
-          </CardDescription>
+                <ExternalLink className="h-4 w-4" />
+                View Live Page
+              </Link>
+            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Button variant="ghost" size="icon" className="">
+                  <X className="h-4 w-4" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Delete Product</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Are you sure you want to delete this product? This action
+                    cannot be undone.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => removeProduct(index)}
+                    className="bg-red-700 hover:bg-red-700/90"
+                  >
+                    Delete
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
       </CardHeader>
       <CardContent>

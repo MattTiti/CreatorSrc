@@ -28,6 +28,7 @@ export default function ProfilePage() {
       min: "",
       max: "",
     },
+    status: "active",
   });
 
   const [products, setProducts] = useState([
@@ -41,6 +42,7 @@ export default function ProfilePage() {
       },
       tags: [],
       images: [],
+      status: "active",
     },
   ]);
 
@@ -204,6 +206,7 @@ export default function ProfilePage() {
         },
         tags: [],
         images: [],
+        status: "active",
       },
     ]);
   };
@@ -242,8 +245,39 @@ export default function ProfilePage() {
     );
   };
 
-  const removeProduct = (indexToRemove) => {
-    setProducts((prev) => prev.filter((_, index) => index !== indexToRemove));
+  const removeProduct = async (indexToRemove) => {
+    const productToDelete = products[indexToRemove];
+
+    // If the product has an _id, it exists in the database
+    if (productToDelete._id) {
+      try {
+        const response = await fetch(
+          `/api/product/delete/${productToDelete._id}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to delete product");
+        }
+
+        const data = await response.json();
+        if (data.success) {
+          setProducts((prev) =>
+            prev.filter((_, index) => index !== indexToRemove)
+          );
+          toast.success("Product Deleted");
+        }
+      } catch (error) {
+        console.error("Error deleting product:", error);
+        toast.error("Failed to delete product");
+        return;
+      }
+    } else {
+      // Product wasn't saved to database yet, just remove from state
+      setProducts((prev) => prev.filter((_, index) => index !== indexToRemove));
+    }
   };
 
   const checkUserType = async () => {
@@ -293,6 +327,7 @@ export default function ProfilePage() {
           tags: data.profile.tags || [],
           industry: data.profile.industry || "",
           marketBudget: data.profile.marketBudget || { min: "", max: "" },
+          status: data.profile.status || "active",
         });
 
         // If brand profile, update products
@@ -367,6 +402,21 @@ export default function ProfilePage() {
     );
   };
 
+  const handleStatusChange = (value) => {
+    setFormData((prev) => ({
+      ...prev,
+      status: value,
+    }));
+  };
+
+  const handleProductStatusChange = (productIndex, value) => {
+    setProducts((prev) =>
+      prev.map((product, index) =>
+        index === productIndex ? { ...product, status: value } : product
+      )
+    );
+  };
+
   if (!accountType) {
     return (
       <div className="container mx-auto px-4 py-8 flex items-center justify-center h-screen">
@@ -397,6 +447,7 @@ export default function ProfilePage() {
         handleBrandBudgetChange={handleBrandBudgetChange}
         handlePriceRangeChange={handlePriceRangeChange}
         PLATFORM_OPTIONS={PLATFORM_OPTIONS}
+        handleStatusChange={handleStatusChange}
       />
       {accountType === "brand" && (
         <>
@@ -416,6 +467,7 @@ export default function ProfilePage() {
               removeProductTag={removeProductTag}
               handleImageUpload={handleImageUpload}
               handleImageDelete={handleImageDelete}
+              handleProductStatusChange={handleProductStatusChange}
             />
           ))}
           <div className="mx-auto">

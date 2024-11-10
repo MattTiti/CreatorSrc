@@ -56,6 +56,7 @@ export async function POST(request) {
         marketBudget: data.marketBudget,
         tags: data.tags,
         links: data.links,
+        status: data.status,
       },
       { upsert: true, new: true }
     );
