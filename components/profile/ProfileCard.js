@@ -284,7 +284,7 @@ export function ProfileCard({
                 onChange={handleInputChange}
                 placeholder={
                   accountType === "creator"
-                    ? "e.g., Photographer, Tech Reviewer, etc."
+                    ? "e.g., Fitness Youtuber, Tech Reviewer, etc."
                     : "e.g., AI Expense Tracker, Marketing Agency, etc."
                 }
               />
