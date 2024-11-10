@@ -205,7 +205,7 @@ export default function ProductCard({
                   name="category"
                   value={product.category}
                   onChange={handleProductInputChange}
-                  placeholder="Enter product category"
+                  placeholder="e.g., To-Do App, AI Expense Tracker, etc."
                   required
                 />
               </div>
