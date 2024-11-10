@@ -198,7 +198,7 @@ export default function ProductCard({
 
               <div className="space-y-2">
                 <Label htmlFor="category">
-                  Category <span className="text-destructive">*</span>
+                  Short Title <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="category"
