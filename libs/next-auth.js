@@ -57,5 +57,6 @@ export const authOptions = {
   },
   pages: {
     signIn: "/login",
+    verifyRequest: "/verify-email",
   },
 };
