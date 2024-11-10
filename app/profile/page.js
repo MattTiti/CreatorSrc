@@ -431,7 +431,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 space-y-8">
+    <div className="container mx-auto p-4 space-y-8">
       <ProfileCard
         formData={formData}
         setFormData={setFormData}

@@ -153,7 +153,10 @@ function SearchComponent() {
 
       <div className="container mx-auto py-4 px-4">
         <div className="mb-8">
-          <form onSubmit={handleSearch} className="flex gap-4">
+          <form
+            onSubmit={handleSearch}
+            className="flex flex-col sm:flex-row gap-4"
+          >
             <Input
               type="search"
               value={inputValue}

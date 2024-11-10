@@ -38,9 +38,9 @@ export default function ProductsPage() {
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto rounded-2xl p-12">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <ShoppingBagIcon className="w-11 h-11 text-black/80" />
-              <h1 className="text-5xl font-bold text-black/80">
+            <div className="flex items-center justify-center gap-2 sm:gap-4 mb-6">
+              <ShoppingBagIcon className="w-8 h-8 sm:w-11 sm:h-11 text-black/80" />
+              <h1 className="text-2xl sm:text-5xl font-bold text-black/80">
                 Find Products
               </h1>
             </div>
@@ -50,7 +50,7 @@ export default function ProductsPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search products by name, category, or budget range..."
-                className="w-full h-12 text-lg rounded-full border-gray-200 shadow-sm focus:ring-2 focus:ring-gray-400 focus:border-transparent bg-white/70"
+                className="w-full h-12 text-lg rounded-full border-gray-200 shadow-sm focus:ring-2 focus:ring-gray-400 focus:border-transparent bg-white/70 text-sm sm:text-base"
               />
             </form>
           </div>
@@ -61,8 +61,8 @@ export default function ProductsPage() {
       <div className="bg-white rounded-t-[2.5rem] relative z-20 border-t border-gray-200 px-4 -mt-8">
         <div className="container mx-auto py-12 px-4">
           <div className="flex items-center justify-between mb-10">
-            <h2 className="text-3xl font-semibold flex items-center gap-3">
-              <Star className="w-8 h-8 text-gray-700" />
+            <h2 className="text-xl sm:text-3xl font-semibold flex items-center gap-1 sm:gap-3">
+              <Star className="sm:w-8 sm:h-8 text-gray-700" />
               Featured Products
             </h2>
             <Link href="/find-products/all">

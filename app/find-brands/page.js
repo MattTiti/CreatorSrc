@@ -39,8 +39,10 @@ export default function BrandsPage() {
         <div className="relative z-10 container mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto rounded-2xl p-12">
             <div className="flex items-center justify-center gap-4 mb-6">
-              <Store className="w-11 h-11 text-black/80" />
-              <h1 className="text-5xl font-bold text-black/80">Find Brands</h1>
+              <Store className="w-8 h-8 sm:w-11 sm:h-11 text-black/80" />
+              <h1 className="text-2xl sm:text-5xl font-bold text-black/80">
+                Find Brands
+              </h1>
             </div>
             <form onSubmit={handleSearch} className="max-w-xl mx-auto">
               <Input
@@ -48,7 +50,7 @@ export default function BrandsPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search brands by name, industry, or budget range..."
-                className="w-full h-12 text-lg rounded-full border-gray-200 shadow-sm focus:ring-2 focus:ring-gray-400 focus:border-transparent bg-white/70"
+                className="w-full h-12 text-lg rounded-full border-gray-200 shadow-sm focus:ring-2 focus:ring-gray-400 focus:border-transparent bg-white/70 text-sm sm:text-base"
               />
             </form>
           </div>
@@ -59,7 +61,7 @@ export default function BrandsPage() {
       <div className="bg-white rounded-t-[2.5rem] relative z-20 border-t border-gray-200 px-4 -mt-8">
         <div className="container mx-auto py-12 px-4">
           <div className="flex items-center justify-between mb-10">
-            <h2 className="text-3xl font-semibold flex items-center gap-3">
+            <h2 className="text-xl sm:text-3xl font-semibold flex items-center gap-1 sm:gap-3">
               <Star className="w-8 h-8 text-gray-700" />
               Featured Brands
             </h2>

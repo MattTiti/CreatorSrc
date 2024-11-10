@@ -22,7 +22,7 @@ export default function MultiSelect({
           variant="outline"
           role="combobox"
           aria-expanded={isOpen}
-          className="w-[200px] justify-between"
+          className="w-full sm:w-[200px] justify-between"
         >
           {value.length === 0 ? placeholder : `${value.length} selected`}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
