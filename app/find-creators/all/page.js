@@ -1,7 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import CreatorCard from "@/components/CreatorCard";
+import CreatorCard from "@/components/find/CreatorCard";
 import config from "@/config";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";

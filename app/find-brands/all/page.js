@@ -1,7 +1,7 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import BrandCard from "@/components/BrandCard";
+import BrandCard from "@/components/find/BrandCard";
 import config from "@/config";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";

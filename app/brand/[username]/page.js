@@ -79,7 +79,7 @@ export default function BrandProfilePage({ params }) {
         <CardContent className="py-6 space-y-8">
           <div className="flex flex-col md:flex-row gap-6">
             <div className="flex justify-center md:block">
-              <Avatar className="h-24 w-24 border border-gray-200">
+              <Avatar className="h-24 w-24 shadow-lg">
                 <AvatarImage src={brand.avatar} />
                 <AvatarFallback>{brand.displayName?.charAt(0)}</AvatarFallback>
               </Avatar>
@@ -109,9 +109,9 @@ export default function BrandProfilePage({ params }) {
 
             <div className="pt-4 space-y-2">
               <p className="font-medium">
-                {brand.marketingBudget?.max
-                  ? `Marketing Budget: $${brand.marketingBudget.min.toLocaleString()} - $${brand.marketingBudget.max.toLocaleString()}`
-                  : `Marketing Budget: $${brand.marketingBudget.min.toLocaleString()}+`}
+                {brand.marketBudget?.max
+                  ? `Marketing Budget: $${brand.marketBudget.min.toLocaleString()} - $${brand.marketBudget.max.toLocaleString()}`
+                  : `Marketing Budget: $${brand.marketBudget.min.toLocaleString()}+`}
               </p>
               <div className="flex items-center gap-1">
                 <span className="font-medium">Contact Email:</span>

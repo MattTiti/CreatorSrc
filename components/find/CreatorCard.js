@@ -22,7 +22,7 @@ export default function CreatorCard({ creator }) {
   };
 
   // Calculate total available slots and items
-  const MAX_VISIBLE_ITEMS = 4; // Reduced to ensure space for "+more" badge
+  const MAX_VISIBLE_ITEMS = 3; // Reduced to ensure space for "+more" badge
   const totalItems =
     (creator.platforms?.length || 0) + (creator.tags?.length || 0);
   const hiddenCount = Math.max(0, totalItems - MAX_VISIBLE_ITEMS);
@@ -40,7 +40,7 @@ export default function CreatorCard({ creator }) {
   return (
     <Card className="hover:shadow-lg transition-shadow h-[320px] flex flex-col">
       <CardHeader className="flex flex-row items-center gap-4 flex-shrink-0">
-        <Avatar>
+        <Avatar className="shadow-md">
           <AvatarImage src={creator.avatar} alt={creator.displayName} />
           <AvatarFallback>{creator.displayName[0]}</AvatarFallback>
         </Avatar>

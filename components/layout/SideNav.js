@@ -36,8 +36,8 @@ function AccountSection({ pathname }) {
     <div className="grid grid-cols-2 gap-2">
       <Button
         asChild
-        variant={pathname === "/profile" ? "secondary" : "outline"}
-        className="w-full justify-center"
+        variant={pathname === "/profile" ? "secondary" : "ghost"}
+        className="w-full justify-center border-gray-200 border"
       >
         <Link href="/profile">
           <CircleUserRound className="h-4 w-4" />
@@ -70,11 +70,6 @@ export function SideNav() {
       label: "Find Brands",
       icon: Store,
       href: "/find-brands",
-    },
-    {
-      label: "Find Products",
-      icon: ShoppingBagIcon,
-      href: "/find-products",
     },
   ];
 

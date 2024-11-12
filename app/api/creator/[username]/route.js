@@ -15,6 +15,7 @@ export async function GET(request, { params }) {
     return NextResponse.json({
       success: true,
       creator: {
+        _id: creator._id,
         displayName: creator.displayName,
         username: creator.username,
         shortTitle: creator.shortTitle,

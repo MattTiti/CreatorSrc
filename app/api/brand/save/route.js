@@ -45,6 +45,7 @@ export async function POST(request) {
     const brand = await Brand.findOneAndUpdate(
       { userId: user._id },
       {
+        _id: data._id,
         userId: user._id,
         displayName: data.displayName,
         username: data.username,

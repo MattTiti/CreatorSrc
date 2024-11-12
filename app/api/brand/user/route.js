@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/libs/next-auth";
 import Brand from "@/models/Brand";
-import Product from "@/models/Product";
 import User from "@/models/User";
 import connectMongo from "@/libs/mongoose";
 
@@ -24,9 +23,6 @@ export async function GET(request) {
     // Get brand profile
     const brand = await Brand.findOne({ userId: user._id });
 
-    // Get brand's products if brand exists
-    const products = brand ? await Product.find({ brandId: brand._id }) : [];
-
     // Return combined user and brand data (if brand exists)
     return NextResponse.json({
       success: true,
@@ -46,7 +42,6 @@ export async function GET(request) {
               tags: [],
               status: "inactive",
             }),
-        products: products,
       },
     });
   } catch (error) {

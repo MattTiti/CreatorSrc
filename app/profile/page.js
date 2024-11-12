@@ -1,11 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { ProfileCard } from "@/components/profile/ProfileCard";
-import ProductCard from "@/components/profile/ProductCard";
+import { ProfileCard } from "@/components/ProfileCard";
 import toast from "react-hot-toast";
 import { Loader2 } from "lucide-react";
-import { capitalizeFirstLetter, validateUsername } from "@/lib/utils";
+import { validateUsername } from "@/lib/utils";
 
 export default function ProfilePage() {
   const [accountType, setAccountType] = useState(null);
@@ -30,22 +28,6 @@ export default function ProfilePage() {
     },
     status: "active",
   });
-
-  const [products, setProducts] = useState([
-    {
-      name: "",
-      description: "",
-      category: "",
-      marketingBudget: {
-        min: "",
-        max: "",
-      },
-      tags: [],
-      images: [],
-      links: [{ name: "", url: "" }],
-      status: "active",
-    },
-  ]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -73,7 +55,10 @@ export default function ProfilePage() {
       { field: "about", label: "About" },
       ...(accountType === "creator"
         ? [{ field: "priceRange.min", label: "Minimum Price" }]
-        : [{ field: "marketBudget.min", label: "Minimum Budget" }]),
+        : [
+            { field: "marketBudget.min", label: "Minimum Budget" },
+            { field: "industry", label: "Industry" },
+          ]),
     ];
 
     const missingFields = requiredFields.filter(({ field }) => {
@@ -103,7 +88,13 @@ export default function ProfilePage() {
       if (!response.ok) throw new Error("Failed to save profile");
 
       const data = await response.json();
-      if (data.success) toast.success("Profile saved!");
+      if (data.success) {
+        setFormData((prev) => ({
+          ...prev,
+          ...data.brand,
+        }));
+        toast.success("Profile saved!");
+      }
     } catch (error) {
       console.error("Error saving profile:", error);
       toast.error("Failed to save profile");
@@ -159,31 +150,6 @@ export default function ProfilePage() {
     }));
   };
 
-  const handleProductInputChange = (productIndex, e) => {
-    const { name, value } = e.target;
-    setProducts((prev) =>
-      prev.map((product, index) =>
-        index === productIndex ? { ...product, [name]: value } : product
-      )
-    );
-  };
-
-  const handleBudgetChange = (productIndex, field, value) => {
-    setProducts((prev) =>
-      prev.map((product, index) =>
-        index === productIndex
-          ? {
-              ...product,
-              marketingBudget: {
-                ...product.marketingBudget,
-                [field]: value,
-              },
-            }
-          : product
-      )
-    );
-  };
-
   const handleBrandBudgetChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -192,94 +158,6 @@ export default function ProfilePage() {
         [field]: value,
       },
     }));
-  };
-
-  const addNewProduct = () => {
-    setProducts((prev) => [
-      ...prev,
-      {
-        name: "",
-        description: "",
-        category: "",
-        marketingBudget: {
-          min: "",
-          max: "",
-        },
-        tags: [],
-        images: [],
-        links: [{ name: "", url: "" }],
-        status: "active",
-      },
-    ]);
-  };
-
-  const handleProductTagKeyDown = (index, e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (e.target.value.trim()) {
-        setProducts((prev) =>
-          prev.map((product, i) => {
-            if (i === index) {
-              return {
-                ...product,
-                tags: [...new Set([...product.tags, e.target.value.trim()])],
-              };
-            }
-            return product;
-          })
-        );
-        e.target.value = ""; // Clear input after adding
-      }
-    }
-  };
-
-  const removeProductTag = (productIndex, tagToRemove) => {
-    setProducts((prev) =>
-      prev.map((product, i) => {
-        if (i === productIndex) {
-          return {
-            ...product,
-            tags: product.tags.filter((tag) => tag !== tagToRemove),
-          };
-        }
-        return product;
-      })
-    );
-  };
-
-  const removeProduct = async (indexToRemove) => {
-    const productToDelete = products[indexToRemove];
-
-    // If the product has an _id, it exists in the database
-    if (productToDelete._id) {
-      try {
-        const response = await fetch(
-          `/api/product/delete/${productToDelete._id}`,
-          {
-            method: "DELETE",
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to delete product");
-        }
-
-        const data = await response.json();
-        if (data.success) {
-          setProducts((prev) =>
-            prev.filter((_, index) => index !== indexToRemove)
-          );
-          toast.success("Product Deleted");
-        }
-      } catch (error) {
-        console.error("Error deleting product:", error);
-        toast.error("Failed to delete product");
-        return;
-      }
-    } else {
-      // Product wasn't saved to database yet, just remove from state
-      setProducts((prev) => prev.filter((_, index) => index !== indexToRemove));
-    }
   };
 
   const checkUserType = async () => {
@@ -304,7 +182,7 @@ export default function ProfilePage() {
 
     try {
       const endpoint =
-        accountType === "creator" ? "/api/creator" : "/api/brand";
+        accountType === "creator" ? "/api/creator/user" : "/api/brand/user";
       const response = await fetch(endpoint);
 
       if (!response.ok) {
@@ -331,11 +209,6 @@ export default function ProfilePage() {
           marketBudget: data.profile.marketBudget || { min: "", max: "" },
           status: data.profile.status || "active",
         });
-
-        // If brand profile, update products
-        if (accountType === "brand" && data.profile.products) {
-          setProducts(data.profile.products);
-        }
       }
     } catch (error) {
       console.error("Error fetching profile:", error);
@@ -361,62 +234,11 @@ export default function ProfilePage() {
     fetchProfile();
   }, [accountType]); // Run when accountType changes
 
-  const handleImageUpload = (productIndex, type, url, imageIndex) => {
-    setProducts((prev) =>
-      prev.map((product, i) => {
-        if (i === productIndex) {
-          if (type === "avatar") {
-            return {
-              ...product,
-              avatar: url,
-            };
-          } else if (type === "images") {
-            const newImages = [...(product.images || [])];
-            newImages[imageIndex] = url;
-            return {
-              ...product,
-              images: newImages,
-            };
-          }
-        }
-        return product;
-      })
-    );
-  };
-
-  const handleImageDelete = (productIndex, imgIndex) => {
-    setProducts((prev) =>
-      prev.map((p, i) => {
-        if (i === productIndex) {
-          const newImages = [...p.images];
-          newImages[imgIndex] = "";
-          // Shift remaining images forward
-          for (let j = imgIndex; j < newImages.length - 1; j++) {
-            if (newImages[j + 1]) {
-              newImages[j] = newImages[j + 1];
-              newImages[j + 1] = "";
-            }
-          }
-          return { ...p, images: newImages };
-        }
-        return p;
-      })
-    );
-  };
-
   const handleStatusChange = (value) => {
     setFormData((prev) => ({
       ...prev,
       status: value,
     }));
-  };
-
-  const handleProductStatusChange = (productIndex, value) => {
-    setProducts((prev) =>
-      prev.map((product, index) =>
-        index === productIndex ? { ...product, status: value } : product
-      )
-    );
   };
 
   if (!accountType) {
@@ -451,39 +273,6 @@ export default function ProfilePage() {
         PLATFORM_OPTIONS={PLATFORM_OPTIONS}
         handleStatusChange={handleStatusChange}
       />
-      {accountType === "brand" && (
-        <>
-          {products.map((product, index) => (
-            <ProductCard
-              key={index}
-              product={product}
-              index={index}
-              handleProductInputChange={(e) =>
-                handleProductInputChange(index, e)
-              }
-              handleBudgetChange={(field, value) =>
-                handleBudgetChange(index, field, value)
-              }
-              removeProduct={() => removeProduct(index)}
-              handleProductTagKeyDown={handleProductTagKeyDown}
-              removeProductTag={removeProductTag}
-              handleImageUpload={handleImageUpload}
-              handleImageDelete={handleImageDelete}
-              handleProductStatusChange={handleProductStatusChange}
-            />
-          ))}
-          <div className="mx-auto">
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={addNewProduct}
-            >
-              Add Another Product
-            </Button>
-          </div>
-        </>
-      )}
     </div>
   );
 }

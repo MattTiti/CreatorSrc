@@ -22,7 +22,7 @@ export default function BrandCard({ brand }) {
   };
 
   // Calculate total available slots and items
-  const MAX_VISIBLE_ITEMS = 4;
+  const MAX_VISIBLE_ITEMS = 3;
   const totalItems = brand.tags?.length || 0;
   const hiddenCount = Math.max(0, totalItems - MAX_VISIBLE_ITEMS);
 
@@ -32,19 +32,19 @@ export default function BrandCard({ brand }) {
   return (
     <Card className="hover:shadow-lg transition-shadow h-[320px] flex flex-col">
       <CardHeader className="flex flex-row items-center gap-4 flex-shrink-0">
-        <Avatar>
+        <Avatar className="shadow-md">
           <AvatarImage src={brand.avatar} alt={brand.displayName} />
           <AvatarFallback>{brand.displayName[0]}</AvatarFallback>
         </Avatar>
         <div>
           <CardTitle className="line-clamp-1">{brand.displayName}</CardTitle>
-          <CardDescription className="line-clamp-1">
+          <CardDescription className="line-clamp-1 text-black/60">
             {brand.shortTitle}
           </CardDescription>
         </div>
       </CardHeader>
       <CardContent className="flex-1 overflow-hidden">
-        <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-2">
+        <p className="text-sm text-black/60 dark:text-gray-400 mb-4 line-clamp-2">
           {brand.about}
         </p>
         <div className="flex flex-wrap gap-2 overflow-hidden max-h-[72px]">

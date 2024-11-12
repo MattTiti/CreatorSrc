@@ -1,8 +1,8 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import CreatorCard from "@/components/CreatorCard";
-import FloatingCards from "@/components/FloatingCards";
+import CreatorCard from "@/components/find/CreatorCard";
+import FloatingCards from "@/components/find/FloatingCards";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import config from "@/config";

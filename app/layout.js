@@ -1,12 +1,13 @@
 import { Inter } from "next/font/google";
 import { getSEOTags } from "@/libs/seo";
-import ClientLayout from "@/components/LayoutClient";
+import ClientLayout from "@/components/layout/LayoutClient";
 import config from "@/config";
 import "./globals.css";
-import { SideNav } from "@/components/SideNav";
-import { MobileNav } from "@/components/MobileNav";
-import Footer from "@/components/Footer";
+import { SideNav } from "@/components/layout/SideNav";
+import { MobileNav } from "@/components/layout/MobileNav";
+import Footer from "@/components/layout/Footer";
 import { Globe } from "lucide-react";
+import { WarningBanner } from "@/components/layout/WarningBanner";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -57,6 +58,7 @@ export default function RootLayout({ children }) {
                   <span className="">{config.appName}</span>
                 </div>
               </header>
+              <WarningBanner />
               {children}
               <Footer />
             </div>

@@ -1,18 +1,41 @@
 "use client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import BrandCard from "@/components/BrandCard";
-import FloatingCards from "@/components/FloatingCards";
+import BrandCard from "@/components/find/BrandCard";
+import FloatingCards from "@/components/find/FloatingCards";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import config from "@/config";
-import { Star, Store } from "lucide-react";
-import { useState } from "react";
+import { Star, Store, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function BrandsPage() {
-  const brands = config.brands.slice(0, 6); // Show only first 6 brands on main page
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
+  const [brands, setBrands] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchBrands = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch("/api/brand/featured");
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch brands");
+      }
+
+      const data = await response.json();
+      setBrands(data.brands.slice(0, 6)); // Show only first 6 brands
+    } catch (error) {
+      console.error("Error fetching brands:", error);
+      // Optionally show error toast here
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchBrands();
+  }, []);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -22,7 +45,7 @@ export default function BrandsPage() {
       );
     }
   };
-  console.log(brands);
+
   return (
     <div>
       {/* Hero Search Section */}
@@ -71,11 +94,22 @@ export default function BrandsPage() {
               </Button>
             </Link>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {brands.map((brand) => (
-              <BrandCard key={brand.userId} brand={brand} />
-            ))}
-          </div>
+
+          {isLoading ? (
+            <div className="flex items-center justify-center min-h-[200px]">
+              <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+            </div>
+          ) : brands.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {brands.map((brand) => (
+                <BrandCard key={brand._id} brand={brand} />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-gray-500 py-12">
+              No featured brands found
+            </div>
+          )}
         </div>
       </div>
     </div>

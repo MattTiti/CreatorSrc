@@ -24,7 +24,7 @@ import { Loader2 } from "lucide-react";
 import { useState, useRef } from "react";
 import { ExternalLink } from "lucide-react";
 import Link from "next/link";
-import InfoIcon from "@/components/InfoIcon";
+import InfoIcon from "@/components/buttons/InfoIcon";
 
 export function ProfileCard({
   formData,
@@ -489,7 +489,9 @@ export function ProfileCard({
           ) : (
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="industry">Industry</Label>
+                <Label htmlFor="industry">
+                  Industry <span className="text-destructive">*</span>
+                </Label>
                 <Input
                   id="industry"
                   name="industry"
